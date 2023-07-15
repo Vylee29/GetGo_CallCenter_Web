@@ -1,0 +1,31 @@
+.wrapper {
+  padding: 2rem;
+  padding-left: 200px;
+  padding-right: 100px;
+  display: flex;
+  justify-content: space-around;
+  .component {
+    padding-right: 5rem;
+    img {
+      width: 80px;
+      height: 78.049px;
+      flex-shrink: 0;
+    }
+    .title {
+      color: #000;
+      font-size: 16px;
+      font-style: normal;
+      font-weight: 600;
+      line-height: 30px;
+    }
+    .content {
+      color: #777;
+      font-size: 13px;
+      font-style: normal;
+      font-weight: 300;
+      line-height: 23px;
+      text-align: left;
+      letter-spacing: -0.24px;
+    }
+  }
+}
