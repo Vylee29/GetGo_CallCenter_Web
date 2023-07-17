@@ -1,0 +1,82 @@
+.wrapper {
+  display: flex;
+  justify-content: space-between;
+  padding: 0;
+  padding-left: 164px !important;
+  padding-right: 164px !important;
+  .container {
+    display: flex;
+    justify-content: space-around;
+    width: 260px;
+    height: 115px;
+    padding-top: 3rem;
+    padding-bottom: 3rem;
+    box-shadow: 0px 4px 4px 0px rgba(0, 0, 0, 0.25);
+
+    &Customer {
+      background-image: linear-gradient(
+        to right top,
+        #1fdbda,
+        #06d5de,
+        #00cee0,
+        #09c7e2,
+        #1fc0e2,
+        #0fbae4,
+        #09b3e5,
+        #16ace6,
+        #11a3e9,
+        #259aeb,
+        #3e90ea,
+        #5684e7
+      );
+    }
+    &Driver {
+      background-image: linear-gradient(
+        to right top,
+        #ffdc3f,
+        #ffd640,
+        #ffd042,
+        #ffcb43,
+        #ffc545,
+        #ffc146,
+        #ffbc48,
+        #ffb849,
+        #ffb34a,
+        #ffae4c,
+        #ffaa4d,
+        #ffa54f
+      );
+    }
+    &History {
+      background-image: linear-gradient(
+        to right top,
+        #f54fa0,
+        #f6529c,
+        #f75599,
+        #f85995,
+        #f95c92,
+        #fa5e8f,
+        #fa618c,
+        #fb6389,
+        #fc6686,
+        #fc6982,
+        #fd6c7f,
+        #fd6f7c
+      );
+    }
+    .text {
+      display: flex;
+      flex-direction: column;
+      margin-top: 0.5rem;
+      color: #fff;
+      font-style: normal;
+      font-family: Open Sans, sans-serif;
+      font-size: 1.7rem;
+      font-weight: 600;
+      line-height: 2.5rem;
+      padding-left: 1rem !important;
+      padding-right: 3rem !important;
+      color: #fff;
+    }
+  }
+}

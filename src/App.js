@@ -1,9 +1,11 @@
 import Home from "../src/pages/Home";
-import Login from "./pages/Login";
+import HomeLayout from "./components/Layouts/CallCenter/HomeLayout";
+import Dashboard from "./pages/Dashboard";
 function App() {
   return (
     <div>
-      <Login />
+      <HomeLayout />
+      <Dashboard />
     </div>
   );
 }
