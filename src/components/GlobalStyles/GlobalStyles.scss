@@ -362,6 +362,11 @@ body {
     background-color: #fb9f44;
     border: none;
   }
+  &.disabled {
+    pointer-events: none;
+    opacity: 0.5;
+    cursor: not-allowed;
+  }
 }
 
 .admin {

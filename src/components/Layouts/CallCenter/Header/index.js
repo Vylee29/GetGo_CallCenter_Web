@@ -1,4 +1,6 @@
 import React from "react";
+import { Link } from "react-router-dom";
+
 import classes from "./Header.module.scss";
 const Header = () => {
   return (
@@ -11,10 +13,14 @@ const Header = () => {
         <span>GetGo Call Center</span>
       </div>
       <div className={classes.right}>
-        <span>ABOUT</span>
-        <span>BOOK</span>
+        <Link to="/">
+          <span>HOME</span>
+        </Link>
         <span>MANAGE</span>
-        <span>HOME</span>
+        <Link to="/book">
+          <span>BOOK</span>
+        </Link>
+        <span>ABOUT</span>
       </div>
     </div>
   );
