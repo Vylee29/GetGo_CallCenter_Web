@@ -4,7 +4,13 @@ import Login from "../pages/Login";
 import HomeLayout from "../components/Layouts/CallCenter/HomeLayout";
 
 export const publicRoutes = [
+  { path: "/login", component: Login, layout: null },
   { path: "/", component: Home, layout: HomeLayout },
   { path: "/book", component: BookDriver, layout: HomeLayout },
-  { path: "/login", component: Login, layout: null },
+];
+
+export const publicCallCenterRoutes = [];
+
+export const publicAdminRoutes = [
+  { path: "/admin/book", component: BookDriver, layout: HomeLayout },
 ];

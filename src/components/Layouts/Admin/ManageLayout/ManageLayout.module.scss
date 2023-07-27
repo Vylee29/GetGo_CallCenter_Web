@@ -1,0 +1,14 @@
+.container {
+  background-color: #f8f8f8;
+  height: auto;
+  min-height: 100vh;
+}
+
+.content {
+  height: 100%;
+  width: var(--default-width);
+  // width: 100%;
+  margin: auto;
+  // margin-top: 56px;
+  font-family: Mt, -apple-system, BlinkMacSystemFont, sans-serif;
+}

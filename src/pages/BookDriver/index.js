@@ -1,4 +1,4 @@
-import { useState } from "react";
+import { useState, useRef, useEffect } from "react";
 import styles from "./BookDriver.module.scss";
 import SearchBar from "../../components/SearchBar";
 import SaveInfoCard from "./SaveInfoCard";
@@ -20,6 +20,20 @@ const BookDriver = () => {
       backdrop: "#fffff",
     });
   };
+
+  const autoCompleteRef = useRef();
+  const inputRef = useRef();
+  const options = {
+    componentRestrictions: { country: "ng" },
+    fields: ["address_components", "geometry", "icon", "name"],
+    types: ["establishment"],
+  };
+  useEffect(() => {
+    autoCompleteRef.current = new window.google.maps.places.Autocomplete(
+      inputRef.current,
+      options
+    );
+  }, []);
 
   return (
     <div>
@@ -77,7 +91,9 @@ const BookDriver = () => {
               name=""
               placeholder="Enter customer’s pick-up location..."
               className={styles.fieldInput}
+              ref={inputRef}
             ></input>
+
             <svg
               xmlns="http://www.w3.org/2000/svg"
               width="1102"
@@ -88,11 +104,13 @@ const BookDriver = () => {
             >
               <path d="M0 1L1102 0.999975" stroke="#D5DDE0" />
             </svg>
+
             <input
               type="text"
               name=""
               placeholder="Enter customer’s drop-off location..."
               className={styles.fieldInput}
+              ref={inputRef}
             ></input>
           </div>
         </div>
