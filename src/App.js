@@ -1,6 +1,5 @@
 import { Fragment, useRef, useEffect } from "react";
 import React from "react";
-import useScript from "react-script-hook/lib/use-script";
 import Home from "../src/pages/Home";
 
 import HomeLayout from "./components/Layouts/CallCenter/HomeLayout";
@@ -18,10 +17,6 @@ import {
 import { publicRoutes } from "./routes";
 
 function App() {
-  useScript(
-    "https://maps.googleapis.com/maps/api/js?key=AIzaSyBLAnygT3LzvYGdMD43t12_zw79CXC0O2w&libraries=places&callback=initMap"
-  );
-
   return (
     <Router>
       <div>

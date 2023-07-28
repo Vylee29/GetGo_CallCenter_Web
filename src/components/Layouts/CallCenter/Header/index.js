@@ -6,11 +6,13 @@ const Header = () => {
   return (
     <div className={classes.wrapper}>
       <div className={classes.left}>
-        <img
-          src="https://encrypted-tbn3.gstatic.com/images?q=tbn:ANd9GcTg6tm5gEwUClI_kw-ACMLo3TVND3LYc8hPDk2FSzqbirhtZPTm"
-          alt=""
-        />
-        <span>GetGo Call Center</span>
+        <Link to="/">
+          <img
+            src="https://encrypted-tbn3.gstatic.com/images?q=tbn:ANd9GcTg6tm5gEwUClI_kw-ACMLo3TVND3LYc8hPDk2FSzqbirhtZPTm"
+            alt=""
+          />
+          <span>GetGo Call Center</span>
+        </Link>
       </div>
       <div className={classes.right}>
         <Link to="/">
@@ -20,7 +22,9 @@ const Header = () => {
         <Link to="/book">
           <span>BOOK</span>
         </Link>
-        <span>ABOUT</span>
+        <Link to="/about">
+          <span>ABOUT</span>
+        </Link>
       </div>
     </div>
   );

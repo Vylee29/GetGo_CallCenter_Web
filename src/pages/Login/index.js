@@ -1,5 +1,8 @@
 import React from "react";
 import { useState, useEffect } from "react";
+import Swal from "sweetalert2";
+import axios from "axios";
+import withReactContent from "sweetalert2-react-content";
 import styles from "./login.module.scss";
 const Login = () => {
   const [data, setData] = useState(() => {
@@ -11,6 +14,31 @@ const Login = () => {
   const [pass, setPass] = useState(() => {
     return { value: "", error: " ", isValid: false };
   });
+  const handleLogin = async (e) => {
+    e.preventDefault();
+    try {
+      // if (localStorage.getItem('user') !== undefined) {
+      //     localStorage.removeItem('user')
+      // }
+      const res = await axios.post("http://localhost:8800/auth/login", {
+        Email: email.value,
+        Pass: pass.value,
+      });
+      //await LoginHandler(res.data.emailAvailable);
+      await Swal.fire(
+        "Đăng nhập thành công",
+        "Nhấn nút để đến trang chủ",
+        "success"
+      );
+      //Nav(res.data.link);
+    } catch (err) {
+      await Swal.fire(
+        err.response.data,
+        "Nhấn nút để thực hiện lại việc đăng nhập",
+        "error"
+      );
+    }
+  };
   useEffect(() => {
     const filter =
       /^([a-zA-Z0-9_\.\-])+\@(([a-zA-Z0-9\-])+\.)+([a-zA-Z0-9]{2,4})+$/;
@@ -110,7 +138,9 @@ const Login = () => {
             <p className={styles.err}>{pass.error}</p>
           </div>
 
-          <button className={styles.loginBtn}>Đăng nhập</button>
+          <button className={styles.loginBtn} onClick={handleLogin}>
+            Đăng nhập
+          </button>
         </div>
       </div>
     </div>
