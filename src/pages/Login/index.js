@@ -20,7 +20,7 @@ const Login = () => {
       // if (localStorage.getItem('user') !== undefined) {
       //     localStorage.removeItem('user')
       // }
-      const res = await axios.post("http://localhost:8800/auth/login", {
+      const res = await axios.post("http://localhost:3000//v1/users/login", {
         Email: email.value,
         Pass: pass.value,
       });
@@ -40,13 +40,14 @@ const Login = () => {
     }
   };
   useEffect(() => {
-    const filter =
-      /^([a-zA-Z0-9_\.\-])+\@(([a-zA-Z0-9\-])+\.)+([a-zA-Z0-9]{2,4})+$/;
+    // const filter =
+    //   /^([a-zA-Z0-9_\.\-])+\@(([a-zA-Z0-9\-])+\.)+([a-zA-Z0-9]{2,4})+$/;
     if (data.isValid === true) {
       const identifier = setTimeout(() => {
-        if (!filter.test(data.email)) {
-          setEmail({ ...email, error: "Email không đúng", isValid: false });
-        } else if (data.email.length === 0) {
+        // if (!filter.test(data.email)) {
+        //   setEmail({ ...email, error: "Email không đúng", isValid: false });
+        // } else
+        if (data.email.length === 0) {
           setEmail({ ...email, error: "Thông tin bắt buộc", isValid: false });
         } else {
           setEmail({ ...email, error: " ", isValid: true });
@@ -108,11 +109,15 @@ const Login = () => {
               <input
                 className={styles.fieldInput}
                 id="field-name"
-                name="email"
+                name="phone"
                 type="text"
-                placeholder="Nhập email"
+                placeholder="Nhập số điện thoại"
                 onChange={(e) =>
-                  setData({ ...data, email: e.target.value, isValid: true })
+                  setData({
+                    ...data,
+                    email: "+84" + e.target.value,
+                    isValid: true,
+                  })
                 }
               />
             </div>

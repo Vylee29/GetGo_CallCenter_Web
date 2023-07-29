@@ -130,7 +130,7 @@ const BookDriver = () => {
     ];
   };
   console.log("HHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHhh");
-  console.log(dataUser.name);
+  console.log(data);
   console.log(status);
   return isLoaded ? (
     <div>
@@ -192,6 +192,7 @@ const BookDriver = () => {
               onChange={async (event) => {
                 const inputValue = event.target.value;
                 if (inputValue) {
+                  console.log(inputValue);
                   setValue(inputValue);
                 } else {
                   // Nếu trường input rỗng, đặt items về rỗng để không hiển thị gợi ý
@@ -199,15 +200,15 @@ const BookDriver = () => {
                 }
               }}
             ></input>
-            {/* <div className={styles.list}>
-              {data1.map((location, index) => {
+            <div className={styles.list}>
+              {data.map((location, index) => {
                 return (
                   <div key={index} className={styles.listItem}>
                     {location}
                   </div>
                 );
               })}
-            </div> */}
+            </div>
 
             <svg
               xmlns="http://www.w3.org/2000/svg"

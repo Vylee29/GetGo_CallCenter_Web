@@ -2,6 +2,7 @@ import Home from "../pages/Home";
 import BookDriver from "../pages/BookDriver";
 import Login from "../pages/Login";
 import About from "../pages/About";
+import ManageCustomer from "../pages/Manage/Customer";
 import HomeLayout from "../components/Layouts/CallCenter/HomeLayout";
 
 export const publicRoutes = [
@@ -9,4 +10,5 @@ export const publicRoutes = [
   { path: "/", component: Home, layout: HomeLayout },
   { path: "/book", component: BookDriver, layout: HomeLayout },
   { path: "/about", component: About, layout: HomeLayout },
+  { path: "/manage/customer", component: ManageCustomer, layout: HomeLayout },
 ];
