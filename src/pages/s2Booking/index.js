@@ -1,6 +1,60 @@
-import React from "react";
+import React, { useState } from "react";
 import "./s2Booking.scss";
-const s2Booking = () => {
+import GoogleMapReact from 'google-map-react';
+// import { geocodeByAddress, getLatLng } from 'react-google-places-autocomplete';
+import ItemTrip from "./itemTrip";
+import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
+import { faMapMarkerAlt } from '@fortawesome/free-solid-svg-icons';
+import PlacesAutocomplete from 'react-places-autocomplete';
+import {
+  geocodeByAddress,
+  geocodeByPlaceId,
+  getLatLng,
+} from 'react-places-autocomplete';
+const AnyReactComponent = ({ text }) => <div>{text}</div>;
+
+const S2Booking = () => {
+  const [coords, setCoords] = useState({
+    lat: 10.99835602,
+    lng: 77.01502627
+  })
+  const [address, setAddress] = useState('')
+  const handleChange = address => {
+    setAddress(address);
+  };
+
+  const handleSelect = address => {
+    geocodeByAddress(address)
+      .then(results => getLatLng(results[0]))
+      .then(latLng => console.log('Success', latLng))
+      .catch(error => console.error('Error', error));
+  };
+  // const defaultProps = {
+  //   center: {
+  //     lat: 10.99835602,
+  //     lng: 77.01502627
+  //   },
+  //   zoom: 11
+  // };
+  const onChangeAddress = async (e) => {
+    console.log(e.target.value);
+    const result = await geocodeByAddress("quận")
+    console.log(result);
+    // const lnglat = await getLatLng(result[0])
+    // setCoords(lnglat);
+  }
+  const data1 = [
+    "Australia",
+    "Austria",
+    "Brazil",
+    "Canada",
+    "Denmark",
+    "Egypt",
+    "France",
+    "Germany",
+    "USA",
+    "Vietnam",
+  ];
   return (
     <React.Fragment>
       <div className="nd-book-driver-page-callcenter-k45" id="877:5254">
@@ -29,357 +83,12 @@ const s2Booking = () => {
                   className="placeholder-label-t9b"
                   id="I880:6152;879:8704"
                   placeholder="Search"
-                ></input>
+                />
               </div>
             </div>
-            <div className="triplist-VfB" id="880:6195">
-              <div className="am-4-ch-nuB" id="I880:6195;879:8898">
-                9:45AM - 4 chỗ
-              </div>
-
-              <div className="auto-group-yztf-Siq" id="BCJzR3GdSo4TvkcW1HYzTf">
-                TRPAA001
-              </div>
-              <div className="auto-group-4ws1-Wyb" id="BCJzYsNv7vtdhZUAnS4WS1">
-                <div className="group-37331-Ttq" id="I880:6195;879:8894">
-                  <div
-                    className="auto-group-eor7-NF7"
-                    id="BCJziwvTTTLEVWr9VGeoR7"
-                  >
-                    <svg
-                      xmlns="http://www.w3.org/2000/svg"
-                      width="28"
-                      height="23"
-                      viewBox="0 0 28 23"
-                      fill="none"
-                    >
-                      <g clip-path="url(#clip0_890_6309)">
-                        <path
-                          d="M13.965 22.62C21.6777 22.62 27.93 17.5563 27.93 11.31C27.93 5.06366 21.6777 0 13.965 0C6.25234 0 0 5.06366 0 11.31C0 17.5563 6.25234 22.62 13.965 22.62Z"
-                          fill="#FA8D1D"
-                          fill-opacity="0.23"
-                        />
-                        <path
-                          d="M13.9653 18.5807C18.9234 18.5807 22.9428 15.3255 22.9428 11.31C22.9428 7.29452 18.9234 4.03931 13.9653 4.03931C9.00716 4.03931 4.98779 7.29452 4.98779 11.31C4.98779 15.3255 9.00716 18.5807 13.9653 18.5807Z"
-                          fill="#FA8D1D"
-                        />
-                        <mask
-                          id="mask0_890_6309"
-                          //style="mask-type:luminance"
-                          maskUnits="userSpaceOnUse"
-                          x="8"
-                          y="7"
-                          width="11"
-                          height="9"
-                        >
-                          <path
-                            d="M18.9525 7.27063H8.97754V15.3492H18.9525V7.27063Z"
-                            fill="white"
-                          />
-                        </mask>
-                        <g mask="url(#mask0_890_6309)">
-                          <path
-                            d="M13.965 12.6564C14.8832 12.6564 15.6275 12.0535 15.6275 11.3099C15.6275 10.5663 14.8832 9.9635 13.965 9.9635C13.0468 9.9635 12.3025 10.5663 12.3025 11.3099C12.3025 12.0535 13.0468 12.6564 13.965 12.6564Z"
-                            fill="white"
-                          />
-                          <path
-                            d="M14.3807 8.64029V7.94385H13.5495V8.64029C12.8181 8.71592 12.1384 8.98604 11.617 9.40828C11.0957 9.83052 10.7621 10.381 10.6688 10.9733H9.80884V11.6465H10.6688C10.762 12.2389 11.0955 12.7894 11.6169 13.2117C12.1383 13.6339 12.818 13.904 13.5495 13.9796V14.676H14.3807V13.9796C15.1122 13.9041 15.792 13.634 16.3134 13.2117C16.8348 12.7895 17.1682 12.2389 17.2614 11.6465H18.1213V10.9733H17.2614C17.1682 10.3809 16.8347 9.83042 16.3133 9.40816C15.7919 8.9859 15.1121 8.71581 14.3807 8.64029ZM13.9651 13.3296C12.5898 13.3296 11.4713 12.4238 11.4713 11.3099C11.4713 10.1961 12.5898 9.29028 13.9651 9.29028C15.3404 9.29028 16.4588 10.1961 16.4588 11.3099C16.4588 12.4238 15.3404 13.3296 13.9651 13.3296Z"
-                            fill="white"
-                          />
-                          <path
-                            d="M14.3807 8.64029V7.94385H13.5495V8.64029C12.8181 8.71592 12.1384 8.98604 11.617 9.40828C11.0957 9.83052 10.7621 10.381 10.6688 10.9733H9.80884V11.6465H10.6688C10.762 12.2389 11.0955 12.7894 11.6169 13.2117C12.1383 13.6339 12.818 13.904 13.5495 13.9796V14.676H14.3807V13.9796C15.1122 13.9041 15.792 13.634 16.3134 13.2117C16.8348 12.7895 17.1682 12.2389 17.2614 11.6465H18.1213V10.9733H17.2614C17.1682 10.3809 16.8347 9.83042 16.3133 9.40816C15.7919 8.9859 15.1121 8.71581 14.3807 8.64029ZM13.9651 13.3296C12.5898 13.3296 11.4713 12.4238 11.4713 11.3099C11.4713 10.1961 12.5898 9.29028 13.9651 9.29028C15.3404 9.29028 16.4588 10.1961 16.4588 11.3099C16.4588 12.4238 15.3404 13.3296 13.9651 13.3296Z"
-                            fill="white"
-                          />
-                        </g>
-                      </g>
-                      <defs>
-                        <clipPath id="clip0_890_6309">
-                          <rect width="28" height="23" fill="white" />
-                        </clipPath>
-                      </defs>
-                    </svg>
-                    <div className="address-E2R" id="I880:6195;879:8890">
-                      277 Nguyễn Văn Cừ, Quận 5, TPHCM
-                    </div>
-                  </div>
-                  <div
-                    className="auto-group-9tvf-5Hw"
-                    id="BCJzxSXyRnzpcPz13R9TVf"
-                  >
-                    <div className="line-63-PZX" id="I880:6195;879:8874"></div>
-                    <div className="line-69-6Tw" id="I880:6195;879:8877"></div>
-                    <div className="line-68-pPw" id="I880:6195;879:8876"></div>
-                    <div className="line-66-wzM" id="I880:6195;879:8875"></div>
-                  </div>
-                  <div
-                    className="auto-group-rwgr-UzH"
-                    id="BCJzq2afAxF4oerTszRwGR"
-                  >
-                    <svg
-                      xmlns="http://www.w3.org/2000/svg"
-                      width="29"
-                      height="23"
-                      viewBox="0 0 29 23"
-                      fill="none"
-                    >
-                      <g clip-path="url(#clip0_891_6332)">
-                        <path
-                          d="M14.4628 22.62C22.4504 22.62 28.9256 17.5563 28.9256 11.31C28.9256 5.06366 22.4504 0 14.4628 0C6.47522 0 0 5.06366 0 11.31C0 17.5563 6.47522 22.62 14.4628 22.62Z"
-                          fill="#FA8D1D"
-                          fill-opacity="0.23"
-                        />
-                        <path
-                          d="M14.463 18.5807C19.5979 18.5807 23.7606 15.3255 23.7606 11.31C23.7606 7.29452 19.5979 4.03931 14.463 4.03931C9.32817 4.03931 5.16553 7.29452 5.16553 11.31C5.16553 15.3255 9.32817 18.5807 14.463 18.5807Z"
-                          fill="#FA8D1D"
-                        />
-                        <path
-                          d="M14.2217 14.7569C13.5692 14.3702 12.9645 13.9462 12.4138 13.4894C11.5874 12.8034 10.606 11.7817 10.606 10.8082C10.6056 10.311 10.8175 9.82488 11.2148 9.4114C11.6121 8.99792 12.177 8.67565 12.8379 8.48537C13.4989 8.29509 14.2262 8.24535 14.9278 8.34246C15.6294 8.43956 16.2739 8.67914 16.7795 9.03087C17.1161 9.2638 17.383 9.54081 17.5646 9.84589C17.7461 10.151 17.8389 10.478 17.8373 10.8082C17.8373 11.7817 16.8559 12.8034 16.0295 13.4894C15.4788 13.9462 14.8741 14.3702 14.2217 14.7569ZM14.2217 9.73124C13.8107 9.73124 13.4165 9.8447 13.1259 10.0467C12.8353 10.2486 12.6721 10.5226 12.6721 10.8082C12.6721 11.0938 12.8353 11.3677 13.1259 11.5697C13.4165 11.7716 13.8107 11.8851 14.2217 11.8851C14.6326 11.8851 15.0268 11.7716 15.3174 11.5697C15.608 11.3677 15.7712 11.0938 15.7712 10.8082C15.7712 10.5226 15.608 10.2486 15.3174 10.0467C15.0268 9.8447 14.6326 9.73124 14.2217 9.73124Z"
-                          fill="white"
-                        />
-                      </g>
-                      <defs>
-                        <clipPath id="clip0_891_6332">
-                          <rect width="29" height="23" fill="white" />
-                        </clipPath>
-                      </defs>
-                    </svg>
-                  </div>
-                </div>
-                <div className="line-70-kS1" id="I880:6195;879:8895"></div>
-              </div>
-            </div>
-            <div className="triplist-VfB" id="880:6195">
-              <div className="am-4-ch-nuB" id="I880:6195;879:8898">
-                9:45AM - 4 chỗ
-              </div>
-
-              <div className="auto-group-yztf-Siq" id="BCJzR3GdSo4TvkcW1HYzTf">
-                TRPAA001
-              </div>
-              <div className="auto-group-4ws1-Wyb" id="BCJzYsNv7vtdhZUAnS4WS1">
-                <div className="group-37331-Ttq" id="I880:6195;879:8894">
-                  <div
-                    className="auto-group-eor7-NF7"
-                    id="BCJziwvTTTLEVWr9VGeoR7"
-                  >
-                    <svg
-                      xmlns="http://www.w3.org/2000/svg"
-                      width="28"
-                      height="23"
-                      viewBox="0 0 28 23"
-                      fill="none"
-                    >
-                      <g clip-path="url(#clip0_890_6309)">
-                        <path
-                          d="M13.965 22.62C21.6777 22.62 27.93 17.5563 27.93 11.31C27.93 5.06366 21.6777 0 13.965 0C6.25234 0 0 5.06366 0 11.31C0 17.5563 6.25234 22.62 13.965 22.62Z"
-                          fill="#FA8D1D"
-                          fill-opacity="0.23"
-                        />
-                        <path
-                          d="M13.9653 18.5807C18.9234 18.5807 22.9428 15.3255 22.9428 11.31C22.9428 7.29452 18.9234 4.03931 13.9653 4.03931C9.00716 4.03931 4.98779 7.29452 4.98779 11.31C4.98779 15.3255 9.00716 18.5807 13.9653 18.5807Z"
-                          fill="#FA8D1D"
-                        />
-                        <mask
-                          id="mask0_890_6309"
-                          //style="mask-type:luminance"
-                          maskUnits="userSpaceOnUse"
-                          x="8"
-                          y="7"
-                          width="11"
-                          height="9"
-                        >
-                          <path
-                            d="M18.9525 7.27063H8.97754V15.3492H18.9525V7.27063Z"
-                            fill="white"
-                          />
-                        </mask>
-                        <g mask="url(#mask0_890_6309)">
-                          <path
-                            d="M13.965 12.6564C14.8832 12.6564 15.6275 12.0535 15.6275 11.3099C15.6275 10.5663 14.8832 9.9635 13.965 9.9635C13.0468 9.9635 12.3025 10.5663 12.3025 11.3099C12.3025 12.0535 13.0468 12.6564 13.965 12.6564Z"
-                            fill="white"
-                          />
-                          <path
-                            d="M14.3807 8.64029V7.94385H13.5495V8.64029C12.8181 8.71592 12.1384 8.98604 11.617 9.40828C11.0957 9.83052 10.7621 10.381 10.6688 10.9733H9.80884V11.6465H10.6688C10.762 12.2389 11.0955 12.7894 11.6169 13.2117C12.1383 13.6339 12.818 13.904 13.5495 13.9796V14.676H14.3807V13.9796C15.1122 13.9041 15.792 13.634 16.3134 13.2117C16.8348 12.7895 17.1682 12.2389 17.2614 11.6465H18.1213V10.9733H17.2614C17.1682 10.3809 16.8347 9.83042 16.3133 9.40816C15.7919 8.9859 15.1121 8.71581 14.3807 8.64029ZM13.9651 13.3296C12.5898 13.3296 11.4713 12.4238 11.4713 11.3099C11.4713 10.1961 12.5898 9.29028 13.9651 9.29028C15.3404 9.29028 16.4588 10.1961 16.4588 11.3099C16.4588 12.4238 15.3404 13.3296 13.9651 13.3296Z"
-                            fill="white"
-                          />
-                          <path
-                            d="M14.3807 8.64029V7.94385H13.5495V8.64029C12.8181 8.71592 12.1384 8.98604 11.617 9.40828C11.0957 9.83052 10.7621 10.381 10.6688 10.9733H9.80884V11.6465H10.6688C10.762 12.2389 11.0955 12.7894 11.6169 13.2117C12.1383 13.6339 12.818 13.904 13.5495 13.9796V14.676H14.3807V13.9796C15.1122 13.9041 15.792 13.634 16.3134 13.2117C16.8348 12.7895 17.1682 12.2389 17.2614 11.6465H18.1213V10.9733H17.2614C17.1682 10.3809 16.8347 9.83042 16.3133 9.40816C15.7919 8.9859 15.1121 8.71581 14.3807 8.64029ZM13.9651 13.3296C12.5898 13.3296 11.4713 12.4238 11.4713 11.3099C11.4713 10.1961 12.5898 9.29028 13.9651 9.29028C15.3404 9.29028 16.4588 10.1961 16.4588 11.3099C16.4588 12.4238 15.3404 13.3296 13.9651 13.3296Z"
-                            fill="white"
-                          />
-                        </g>
-                      </g>
-                      <defs>
-                        <clipPath id="clip0_890_6309">
-                          <rect width="28" height="23" fill="white" />
-                        </clipPath>
-                      </defs>
-                    </svg>
-                    <div className="address-E2R" id="I880:6195;879:8890">
-                      277 Nguyễn Văn Cừ, Quận 5, TPHCM
-                    </div>
-                  </div>
-                  <div
-                    className="auto-group-9tvf-5Hw"
-                    id="BCJzxSXyRnzpcPz13R9TVf"
-                  >
-                    <div className="line-63-PZX" id="I880:6195;879:8874"></div>
-                    <div className="line-69-6Tw" id="I880:6195;879:8877"></div>
-                    <div className="line-68-pPw" id="I880:6195;879:8876"></div>
-                    <div className="line-66-wzM" id="I880:6195;879:8875"></div>
-                  </div>
-                  <div
-                    className="auto-group-rwgr-UzH"
-                    id="BCJzq2afAxF4oerTszRwGR"
-                  >
-                    <svg
-                      xmlns="http://www.w3.org/2000/svg"
-                      width="29"
-                      height="23"
-                      viewBox="0 0 29 23"
-                      fill="none"
-                    >
-                      <g clip-path="url(#clip0_891_6332)">
-                        <path
-                          d="M14.4628 22.62C22.4504 22.62 28.9256 17.5563 28.9256 11.31C28.9256 5.06366 22.4504 0 14.4628 0C6.47522 0 0 5.06366 0 11.31C0 17.5563 6.47522 22.62 14.4628 22.62Z"
-                          fill="#FA8D1D"
-                          fill-opacity="0.23"
-                        />
-                        <path
-                          d="M14.463 18.5807C19.5979 18.5807 23.7606 15.3255 23.7606 11.31C23.7606 7.29452 19.5979 4.03931 14.463 4.03931C9.32817 4.03931 5.16553 7.29452 5.16553 11.31C5.16553 15.3255 9.32817 18.5807 14.463 18.5807Z"
-                          fill="#FA8D1D"
-                        />
-                        <path
-                          d="M14.2217 14.7569C13.5692 14.3702 12.9645 13.9462 12.4138 13.4894C11.5874 12.8034 10.606 11.7817 10.606 10.8082C10.6056 10.311 10.8175 9.82488 11.2148 9.4114C11.6121 8.99792 12.177 8.67565 12.8379 8.48537C13.4989 8.29509 14.2262 8.24535 14.9278 8.34246C15.6294 8.43956 16.2739 8.67914 16.7795 9.03087C17.1161 9.2638 17.383 9.54081 17.5646 9.84589C17.7461 10.151 17.8389 10.478 17.8373 10.8082C17.8373 11.7817 16.8559 12.8034 16.0295 13.4894C15.4788 13.9462 14.8741 14.3702 14.2217 14.7569ZM14.2217 9.73124C13.8107 9.73124 13.4165 9.8447 13.1259 10.0467C12.8353 10.2486 12.6721 10.5226 12.6721 10.8082C12.6721 11.0938 12.8353 11.3677 13.1259 11.5697C13.4165 11.7716 13.8107 11.8851 14.2217 11.8851C14.6326 11.8851 15.0268 11.7716 15.3174 11.5697C15.608 11.3677 15.7712 11.0938 15.7712 10.8082C15.7712 10.5226 15.608 10.2486 15.3174 10.0467C15.0268 9.8447 14.6326 9.73124 14.2217 9.73124Z"
-                          fill="white"
-                        />
-                      </g>
-                      <defs>
-                        <clipPath id="clip0_891_6332">
-                          <rect width="29" height="23" fill="white" />
-                        </clipPath>
-                      </defs>
-                    </svg>
-                  </div>
-                </div>
-                <div className="line-70-kS1" id="I880:6195;879:8895"></div>
-              </div>
-            </div>
-            <div className="triplist-VfB" id="880:6195">
-              <div className="am-4-ch-nuB" id="I880:6195;879:8898">
-                9:45AM - 4 chỗ
-              </div>
-
-              <div className="auto-group-yztf-Siq" id="BCJzR3GdSo4TvkcW1HYzTf">
-                TRPAA001
-              </div>
-              <div className="auto-group-4ws1-Wyb" id="BCJzYsNv7vtdhZUAnS4WS1">
-                <div className="group-37331-Ttq" id="I880:6195;879:8894">
-                  <div
-                    className="auto-group-eor7-NF7"
-                    id="BCJziwvTTTLEVWr9VGeoR7"
-                  >
-                    <svg
-                      xmlns="http://www.w3.org/2000/svg"
-                      width="28"
-                      height="23"
-                      viewBox="0 0 28 23"
-                      fill="none"
-                    >
-                      <g clip-path="url(#clip0_890_6309)">
-                        <path
-                          d="M13.965 22.62C21.6777 22.62 27.93 17.5563 27.93 11.31C27.93 5.06366 21.6777 0 13.965 0C6.25234 0 0 5.06366 0 11.31C0 17.5563 6.25234 22.62 13.965 22.62Z"
-                          fill="#FA8D1D"
-                          fill-opacity="0.23"
-                        />
-                        <path
-                          d="M13.9653 18.5807C18.9234 18.5807 22.9428 15.3255 22.9428 11.31C22.9428 7.29452 18.9234 4.03931 13.9653 4.03931C9.00716 4.03931 4.98779 7.29452 4.98779 11.31C4.98779 15.3255 9.00716 18.5807 13.9653 18.5807Z"
-                          fill="#FA8D1D"
-                        />
-                        <mask
-                          id="mask0_890_6309"
-                          //style="mask-type:luminance"
-                          maskUnits="userSpaceOnUse"
-                          x="8"
-                          y="7"
-                          width="11"
-                          height="9"
-                        >
-                          <path
-                            d="M18.9525 7.27063H8.97754V15.3492H18.9525V7.27063Z"
-                            fill="white"
-                          />
-                        </mask>
-                        <g mask="url(#mask0_890_6309)">
-                          <path
-                            d="M13.965 12.6564C14.8832 12.6564 15.6275 12.0535 15.6275 11.3099C15.6275 10.5663 14.8832 9.9635 13.965 9.9635C13.0468 9.9635 12.3025 10.5663 12.3025 11.3099C12.3025 12.0535 13.0468 12.6564 13.965 12.6564Z"
-                            fill="white"
-                          />
-                          <path
-                            d="M14.3807 8.64029V7.94385H13.5495V8.64029C12.8181 8.71592 12.1384 8.98604 11.617 9.40828C11.0957 9.83052 10.7621 10.381 10.6688 10.9733H9.80884V11.6465H10.6688C10.762 12.2389 11.0955 12.7894 11.6169 13.2117C12.1383 13.6339 12.818 13.904 13.5495 13.9796V14.676H14.3807V13.9796C15.1122 13.9041 15.792 13.634 16.3134 13.2117C16.8348 12.7895 17.1682 12.2389 17.2614 11.6465H18.1213V10.9733H17.2614C17.1682 10.3809 16.8347 9.83042 16.3133 9.40816C15.7919 8.9859 15.1121 8.71581 14.3807 8.64029ZM13.9651 13.3296C12.5898 13.3296 11.4713 12.4238 11.4713 11.3099C11.4713 10.1961 12.5898 9.29028 13.9651 9.29028C15.3404 9.29028 16.4588 10.1961 16.4588 11.3099C16.4588 12.4238 15.3404 13.3296 13.9651 13.3296Z"
-                            fill="white"
-                          />
-                          <path
-                            d="M14.3807 8.64029V7.94385H13.5495V8.64029C12.8181 8.71592 12.1384 8.98604 11.617 9.40828C11.0957 9.83052 10.7621 10.381 10.6688 10.9733H9.80884V11.6465H10.6688C10.762 12.2389 11.0955 12.7894 11.6169 13.2117C12.1383 13.6339 12.818 13.904 13.5495 13.9796V14.676H14.3807V13.9796C15.1122 13.9041 15.792 13.634 16.3134 13.2117C16.8348 12.7895 17.1682 12.2389 17.2614 11.6465H18.1213V10.9733H17.2614C17.1682 10.3809 16.8347 9.83042 16.3133 9.40816C15.7919 8.9859 15.1121 8.71581 14.3807 8.64029ZM13.9651 13.3296C12.5898 13.3296 11.4713 12.4238 11.4713 11.3099C11.4713 10.1961 12.5898 9.29028 13.9651 9.29028C15.3404 9.29028 16.4588 10.1961 16.4588 11.3099C16.4588 12.4238 15.3404 13.3296 13.9651 13.3296Z"
-                            fill="white"
-                          />
-                        </g>
-                      </g>
-                      <defs>
-                        <clipPath id="clip0_890_6309">
-                          <rect width="28" height="23" fill="white" />
-                        </clipPath>
-                      </defs>
-                    </svg>
-                    <div className="address-E2R" id="I880:6195;879:8890">
-                      277 Nguyễn Văn Cừ, Quận 5, TPHCM
-                    </div>
-                  </div>
-                  <div
-                    className="auto-group-9tvf-5Hw"
-                    id="BCJzxSXyRnzpcPz13R9TVf"
-                  >
-                    <div className="line-63-PZX" id="I880:6195;879:8874"></div>
-                    <div className="line-69-6Tw" id="I880:6195;879:8877"></div>
-                    <div className="line-68-pPw" id="I880:6195;879:8876"></div>
-                    <div className="line-66-wzM" id="I880:6195;879:8875"></div>
-                  </div>
-                  <div
-                    className="auto-group-rwgr-UzH"
-                    id="BCJzq2afAxF4oerTszRwGR"
-                  >
-                    <svg
-                      xmlns="http://www.w3.org/2000/svg"
-                      width="29"
-                      height="23"
-                      viewBox="0 0 29 23"
-                      fill="none"
-                    >
-                      <g clip-path="url(#clip0_891_6332)">
-                        <path
-                          d="M14.4628 22.62C22.4504 22.62 28.9256 17.5563 28.9256 11.31C28.9256 5.06366 22.4504 0 14.4628 0C6.47522 0 0 5.06366 0 11.31C0 17.5563 6.47522 22.62 14.4628 22.62Z"
-                          fill="#FA8D1D"
-                          fill-opacity="0.23"
-                        />
-                        <path
-                          d="M14.463 18.5807C19.5979 18.5807 23.7606 15.3255 23.7606 11.31C23.7606 7.29452 19.5979 4.03931 14.463 4.03931C9.32817 4.03931 5.16553 7.29452 5.16553 11.31C5.16553 15.3255 9.32817 18.5807 14.463 18.5807Z"
-                          fill="#FA8D1D"
-                        />
-                        <path
-                          d="M14.2217 14.7569C13.5692 14.3702 12.9645 13.9462 12.4138 13.4894C11.5874 12.8034 10.606 11.7817 10.606 10.8082C10.6056 10.311 10.8175 9.82488 11.2148 9.4114C11.6121 8.99792 12.177 8.67565 12.8379 8.48537C13.4989 8.29509 14.2262 8.24535 14.9278 8.34246C15.6294 8.43956 16.2739 8.67914 16.7795 9.03087C17.1161 9.2638 17.383 9.54081 17.5646 9.84589C17.7461 10.151 17.8389 10.478 17.8373 10.8082C17.8373 11.7817 16.8559 12.8034 16.0295 13.4894C15.4788 13.9462 14.8741 14.3702 14.2217 14.7569ZM14.2217 9.73124C13.8107 9.73124 13.4165 9.8447 13.1259 10.0467C12.8353 10.2486 12.6721 10.5226 12.6721 10.8082C12.6721 11.0938 12.8353 11.3677 13.1259 11.5697C13.4165 11.7716 13.8107 11.8851 14.2217 11.8851C14.6326 11.8851 15.0268 11.7716 15.3174 11.5697C15.608 11.3677 15.7712 11.0938 15.7712 10.8082C15.7712 10.5226 15.608 10.2486 15.3174 10.0467C15.0268 9.8447 14.6326 9.73124 14.2217 9.73124Z"
-                          fill="white"
-                        />
-                      </g>
-                      <defs>
-                        <clipPath id="clip0_891_6332">
-                          <rect width="29" height="23" fill="white" />
-                        </clipPath>
-                      </defs>
-                    </svg>
-                  </div>
-                </div>
-                <div className="line-70-kS1" id="I880:6195;879:8895"></div>
-              </div>
-            </div>
+            <ItemTrip />
+            <ItemTrip />
+            <ItemTrip />
           </div>
           <div className="auto-group-bk2q-Bt1" id="BCK2SUtwZpWzWsTXgVBk2q">
             <div className="section-header-82Z" id="877:5256">
@@ -400,17 +109,7 @@ const s2Booking = () => {
                 </p>
               </div>
             </div>
-            <div className="input-1AD" id="877:5264">
-              <div className="frame-79-XuF" id="877:5265">
-                <p className="a-ch-n-gGM" id="877:5266">
-                  Địa chỉ đón
-                </p>
-                <input
-                  className="available-products-at-our-website-znq"
-                  placeholder="Nhập địa chỉ đã được định vị"
-                ></input>
-              </div>
-            </div>
+
             <div className="input-Ui1" id="877:5268">
               <div className="frame-79-1T3" id="877:5269">
                 <p className="loi-xe-7W5" id="877:5270">
@@ -424,17 +123,91 @@ const s2Booking = () => {
                 </p>
               </div>
             </div>
+
+            <PlacesAutocomplete
+              value={address}
+              onChange={handleChange}
+              onSelect={handleSelect}
+            >
+              {({ getInputProps, suggestions, getSuggestionItemProps, loading }) => (
+                <div>
+                  {/* <input
+                  className="available-products-at-our-website-znq"
+                  placeholder="Nhập địa chỉ đã được định vị"
+                  onChange={onChangeAddress}
+                /> */}
+                  <div className="input-1AD" id="877:5264">
+                    <div className="frame-79-XuF" id="877:5265">
+                      <p className="a-ch-n-gGM" id="877:5266">
+                        Địa chỉ đón
+                      </p>
+                      <input
+                        {...getInputProps({
+                          placeholder: 'Nhập địa chỉ đã được định vị',
+                          className: 'available-products-at-our-website-znq',
+                        })}
+                      /></div>
+                  </div>
+                  <div className="autocomplete-dropdown-container " >
+                    {loading && <div>Loading...</div>}
+                    {suggestions.map(suggestion => {
+                      const className = suggestion.active
+                        ? 'suggestion-item--active'
+                        : 'suggestion-item';
+                      // inline style for demonstration purpose
+                      const style = suggestion.active
+                        ? { backgroundColor: '#fafafa', cursor: 'pointer' }
+                        : { backgroundColor: '#f9fafb', cursor: 'pointer' };
+                      return (
+                        <div
+                          {...getSuggestionItemProps(suggestion, {
+                            className,
+                            style,
+                          })}
+                        >
+                          {/* <span className="textSuggestion">11 </span> */}
+                          <svg className="iconSvg" xmlns="http://www.w3.org/2000/svg" width="25" height="25" viewBox="0 0 25 25" fill="none">
+                            <circle cx="12.5" cy="12.5" r="12.5" fill="#FA8D1D" />
+                            <path d="M12.176 18.4256C11.2989 17.7606 10.4859 17.0317 9.74549 16.2464C8.63438 15.067 7.31494 13.3105 7.31494 11.6368C7.31446 10.782 7.59932 9.94626 8.13348 9.2354C8.66763 8.52454 9.42707 7.97048 10.3157 7.64334C11.2043 7.31621 12.1821 7.2307 13.1254 7.39765C14.0687 7.56459 14.9351 7.97648 15.6149 8.58119C16.0675 8.98164 16.4263 9.45789 16.6704 9.98238C16.9145 10.5069 17.0392 11.0692 17.0371 11.6368C17.0371 13.3105 15.7177 15.067 14.6066 16.2464C13.8662 17.0317 13.0532 17.7606 12.176 18.4256ZM12.176 9.78527C11.6235 9.78527 11.0936 9.98034 10.7029 10.3276C10.3122 10.6748 10.0927 11.1457 10.0927 11.6368C10.0927 12.1278 10.3122 12.5987 10.7029 12.946C11.0936 13.2932 11.6235 13.4883 12.176 13.4883C12.7286 13.4883 13.2585 13.2932 13.6492 12.946C14.0399 12.5987 14.2594 12.1278 14.2594 11.6368C14.2594 11.1457 14.0399 10.6748 13.6492 10.3276C13.2585 9.98034 12.7286 9.78527 12.176 9.78527Z" fill="white" />
+                          </svg>
+                          <span className="textSuggestion">: {suggestion.description}</span>
+                        </div>
+                      );
+                    })}
+                  </div>
+                </div>
+              )}
+            </PlacesAutocomplete>
+
+
             <div className="rectangle-1748-hjB" id="877:5273"></div>
+
+
+            <div className="maps-zoom-levels-3-street-HSV">
+              <GoogleMapReact
+                bootstrapURLKeys={{ key: "AIzaSyBLAnygT3LzvYGdMD43t12_zw79CXC0O2w" }}
+                center={coords}
+                defaultZoom={18}
+              >
+                <AnyReactComponent
+                  lat={coords.lat}
+                  lng={coords.lng}
+                  text={
+                    <FontAwesomeIcon icon={faMapMarkerAlt} style={{ color: "#ff0000", fontSize: "20" }} />
+                  }
+                />
+              </GoogleMapReact>
+              <div className="input-qqP" id="877:5272">
+                ĐIỀU PHỐI
+              </div>
+            </div>
           </div>
         </div>
-        <div className="d-flex ">
-          <div className="input-qqP" id="877:5272">
-            ĐIỀU PHỐI
-          </div>
-          <div className="maps-zoom-levels-3-street-HSV"></div>
+        <div className="googleMapCSS">
+
         </div>
       </div>
     </React.Fragment>
   );
 };
-export default s2Booking;
+export default S2Booking;
