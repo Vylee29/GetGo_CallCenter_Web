@@ -97,6 +97,7 @@ const S1Booking = () => {
           setHistory(response.data.trips)
         })
         .catch(function (error) {
+          console.log(error);
         })
     } else {
       setHistory([])
@@ -158,6 +159,29 @@ const S1Booking = () => {
     }
   }
 
+  const handleBookCar = (trip) => {
+    const data = {
+      "start":trip,
+      "phone": '+84' + phone.slice(1),
+      "carType": car,
+    }
+    axios
+      .post("http://localhost:3001/v1/booking/callcenters1", data, {
+        headers: {
+          "Content-Type": "application/json"
+        }
+      })
+      .then(function (response) {
+        console.log(response);
+        if (response.data.statusCode == 200)
+          setMessage("Định vị chuyến đi thành công")
+        else setMessage("Định vị chuyến đi thất bại")
+        setShowNotification(true)
+      })
+      .catch(function (error) {
+        console.log(error);
+      })
+  }
 
   return (
     <React.Fragment>
