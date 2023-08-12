@@ -19,7 +19,6 @@
     height: 8rem;
     margin-top: 2rem;
     margin-bottom: 2rem;
-
   }
 }
 
@@ -43,7 +42,23 @@
   height: 102.4rem;
   //position: relative;
   width: 100%;
-
+  .errorMsg {
+    color: red;
+    font-size: 12px;
+    font-family: "Segoe UI", Tahoma, Geneva, Verdana, sans-serif;
+    justify-content: flex-end;
+    display: flex;
+    height: 2rem;
+    margin: 0;
+    &Address {
+      margin-top: 16.6rem;
+      margin-left: 70rem;
+    }
+    &Type {
+      margin-top: 7.5rem;
+      margin-left: 70rem;
+    }
+  }
   .t-xe-cho-khch-QN1 {
     color: #111827;
     font-family: Inter, "Source Sans Pro";
@@ -65,7 +80,8 @@
     left: 37rem;
     position: absolute;
     top: 17.9rem;
-    width: 70rem;
+    width: 79rem;
+    justify-content: space-between;
 
     .thng-tin-chung--SbX {
       align-items: baseline;
@@ -86,7 +102,6 @@
         font-weight: 600;
         line-height: 1.5;
       }
-
     }
 
     .ghost-2CM {
@@ -135,7 +150,6 @@
         line-height: 1.6666666667;
         margin-bottom: 0.4rem;
         white-space: nowrap;
-
       }
 
       .website-hC1 {
@@ -237,9 +251,7 @@
 
         option {
           font-family: Inter, "Source Sans Pro";
-
         }
-
       }
 
       .available-products-at-our-website-BHX {
