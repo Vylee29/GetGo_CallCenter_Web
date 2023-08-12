@@ -197,8 +197,8 @@
     justify-content: center;
     left: 37rem;
     line-height: 1.2;
-    position: absolute;
-    top: 64.6rem;
+    // position: absolute;
+    // top: 64.6rem;
     white-space: nowrap;
     width: 80rem;
     outline: none;
@@ -255,27 +255,43 @@
     white-space: nowrap;
     width: 32.1rem;
   }
-  .configuration-card-Kpy {
+  .listHistory{
     align-items: center;
     background-color: #ffffff;
-    border: solid 0.1rem #e5e7eb;
-    border-radius: 0.8rem;
     box-sizing: border-box;
     display: flex;
-    height: 7.8rem;
+    flex-direction: column;
+    // height: 7.8rem;
     left: 37rem;
     overflow: hidden;
     padding-right: 2.4rem;
     position: absolute;
     top: 55.7rem;
     width: 80rem;
+  }
+  .configuration-card-Kpy {
+    align-items: center;
+    background-color: #ffffff;
+    border: solid 0.1rem #e5e7eb;
+    border-radius: 0.8rem;
+    box-sizing: border-box;
+    // display: flex;
+    height: 7.8rem;
+    // left: 37rem;
+    overflow: hidden;
+    padding-right: 2.4rem;
+    margin-left: 2.5rem;
+    margin-bottom: 1rem;
+    // position: absolute;
+    // top: 55.7rem;
+    width: 80rem;
 
     .content-qHX {
       flex-shrink: 0;
       height: 100%;
       margin-right: 29.8rem;
-      position: relative;
-      width: 50.4rem;
+      // position: relative;
+      // width: 50.4rem;
       display: flex;
 
       .svgFrame {
@@ -294,10 +310,10 @@
         font-size: 1.4rem;
         font-weight: 600;
         height: 2.4rem;
-        left: 23rem;
+        // left: 23rem;
         line-height: 1.7142857143;
         //position: absolute;
-        top: 23.2rem;
+        // top: 23.2rem;
         white-space: nowrap;
         width: 10.7rem;
       }
@@ -315,7 +331,7 @@
         align-items: center;
         display: flex;
         height: 2rem;
-        left: 23rem;
+        // left: 23rem;
         //position: absolute;
         top: 25.8rem;
         width: 27.4rem;
