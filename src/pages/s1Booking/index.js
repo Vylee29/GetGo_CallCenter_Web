@@ -55,16 +55,12 @@ function HistoryItem({ data, handleBookCar }) {
   );
 }
 const S1Booking = () => {
-  // const [phone, setPhone] = useState("");
-  // const [errMsgPhone, setErrMsgPhone] = useState("");
-  // const [address, setAddress] = useState("");
-  // const [errMsgAdd, setErrMsgAdd] = useState("");
+
   const [listCar, setListCar] = useState([
     { carType: 1, name: "4 chỗ" },
     { carType: 2, name: "7 chỗ" },
   ]);
-  // const [car, setCar] = useState("");
-  // const [errMsgCar, setErrMsgCar] = useState("");
+
 
   const [phone, setPhone] = useState(() => {
     return { value: "", error: "", isValid: false };
@@ -183,76 +179,58 @@ const S1Booking = () => {
   };
 
   const handleSubmit = () => {
-    // let flag = true;
-    // if (!phoneRegex.test(phone)) {
-    //   setErrMsgPhone("Số điện thoại không đúng định dạng");
-    //   flag = false;
-    // } else {
-    //   setErrMsgPhone("");
-    // }
-
-    // if (!address) {
-    //   setErrMsgAdd("Địa chỉ không được để trống");
-    //   flag = false;
-    // } else {
-    //   setErrMsgAdd("");
-    // }
-
-    // if (!car) {
-    //   setErrMsgCar("Loại xe không được để trống");
-    //   flag = false;
-    // } else {
-    //   setErrMsgCar("");
-    // }
-
-    // if (flag) {
-    const data = {
-      start: { place: address.value },
-      phone: "+84" + phone.value.slice(1),
-      carType: type.value,
-    };
-    console.log(data);
-    axios
-      .post("http://localhost:3001/v1/booking/callcenters1", data, {
-        headers: {
-          "Content-Type": "application/json",
-        },
-      })
-      .then(function (response) {
-        console.log(response);
-        if (response.data.statusCode == 200)
-          setMessage("Định vị chuyến đi thành công");
-        else setMessage("Định vị chuyến đi thất bại");
-        setShowNotification(true);
-      })
-      .catch(function (error) {
-        console.log(error);
-      });
-    // }
+    if (phone.isValid & address.isValid & type.isValid) {
+      const data = {
+        start: { place: address.value },
+        phone: "+84" + phone.value.slice(1),
+        carType: type.value,
+      };
+      console.log(data);
+      axios
+        .post("http://localhost:3001/v1/booking/callcenters1", data, {
+          headers: {
+            "Content-Type": "application/json",
+          },
+        })
+        .then(function (response) {
+          console.log(response);
+          if (response.data.statusCode == 200)
+            setMessage("Định vị chuyến đi thành công");
+          else setMessage("Định vị chuyến đi thất bại");
+          setShowNotification(true);
+        })
+        .catch(function (error) {
+          console.log(error);
+        });
+    }
   };
 
   const handleBookCar = (trip) => {
-    const data = {
-      start: trip,
-      phone: "+84" + phone.slice(1),
-      carType: type.value,
-    };
-    axios
-      .post("http://localhost:3001/v1/booking/callcenters1", data, {
-        headers: {
-          "Content-Type": "application/json",
-        },
-      })
-      .then(function (response) {
-        console.log(response);
-        if (response.data.statusCode == 200)
-          setMessage("Định vị chuyến đi thành công");
-        else setMessage("Định vị chuyến đi thất bại");
-        setShowNotification(true);
-      })
-      .catch(function (error) {
-        console.log(error);
-      });
+    if (type.isValid) {
+
+
+      const data = {
+        start: trip,
+        phone: "+84" + phone.value.slice(1),
+        carType: type.value,
+      };
+      axios
+        .post("http://localhost:3001/v1/booking/callcenters1", data, {
+          headers: {
+            "Content-Type": "application/json",
+          },
+        })
+        .then(function (response) {
+          console.log(response);
+          if (response.data.statusCode == 200)
+            setMessage("Định vị chuyến đi thành công");
+          else setMessage("Định vị chuyến đi thất bại");
+          setShowNotification(true);
+        })
+        .catch(function (error) {
+          console.log(error);
+        });
+    }
   };
 
   return (

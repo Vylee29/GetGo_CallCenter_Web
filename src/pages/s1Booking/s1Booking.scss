@@ -364,6 +364,12 @@
     width: 80rem;
   }
 
+  .configuration-card-Kpy:hover{
+    cursor: pointer;
+    border: solid 0.1rem #fa8d1d;
+
+  }
+
   .configuration-card-Kpy {
     align-items: center;
     background-color: #ffffff;
@@ -402,15 +408,15 @@
         margin-top: 2rem;
         color: #111827;
         font-family: Inter, "Source Sans Pro";
-        font-size: 1.8rem;
+        font-size: 1.5rem;
         font-weight: 600;
         height: 2.4rem;
         // left: 23rem;
         line-height: 1.7142857143;
         //position: absolute;
         // top: 23.2rem;
-        white-space: nowrap;
-        width: 10.7rem;
+        white-space: wrap;
+        width: 100%;
       }
 
       .rule-icon-f1f {
