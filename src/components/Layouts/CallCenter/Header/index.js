@@ -1,8 +1,23 @@
 import React from "react";
-import { Link } from "react-router-dom";
-
+import { useState, useContext } from "react";
+import { Link, useNavigate } from "react-router-dom";
+import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
+import {
+  faAngleDown,
+  faHome,
+  faHotel,
+  faSignOut,
+  faUser,
+} from "@fortawesome/free-solid-svg-icons";
 import classes from "./Header.module.scss";
 const Header = () => {
+  const [show, setShow] = useState(false);
+  const Nav = useNavigate();
+  //const { LogoutHandler } = useContext(DataContext)
+  const handleLogout = () => {
+    //LogoutHandler();
+    Nav("/login");
+  };
   return (
     <div className={classes.wrapper}>
       <div className={classes.left}>
@@ -26,6 +41,29 @@ const Header = () => {
         </Link>
         <Link to="/about">
           <span>ABOUT</span>
+        </Link>
+      </div>
+      {/* <div className={`${classes.rightAva} `} onClick={() => setShow(!show)}>
+        <img src="https://cdn1.iconfinder.com/data/icons/marketing-19/100/Profile-512.png" />
+        <span>Hello, Call Center</span>
+        <FontAwesomeIcon icon={faAngleDown} className={classes.icon} />
+
+        {show && (
+          <div className={classes.menu}>
+            <Link to={"/"} className={classes.menuItem}>
+              <FontAwesomeIcon icon={faHome} className={classes.icon} />
+              <span>Trang chủ</span>
+            </Link>
+            <div onClick={handleLogout} className={classes.menuItem}>
+              <FontAwesomeIcon icon={faSignOut} className={classes.icon} />
+              <span>Đăng xuất</span>
+            </div>
+          </div>
+        )}
+      </div> */}
+      <div className={`${classes.rightAva} `}>
+        <Link to="/login">
+          <button className="btn-1">Đăng nhập</button>
         </Link>
       </div>
     </div>

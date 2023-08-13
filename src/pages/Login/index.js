@@ -1,11 +1,12 @@
 import React from "react";
-import { useState, useEffect } from "react";
+import { useState, useEffect, useContext } from "react";
 import Swal from "sweetalert2";
 import axios from "axios";
 import { useNavigate } from "react-router-dom";
 import withReactContent from "sweetalert2-react-content";
 import styles from "./login.module.scss";
 const Login = () => {
+  const user_info = JSON.parse(localStorage.getItem("user_info"));
   const Nav = useNavigate();
   const [phone, setPhone] = useState(() => {
     return { value: "", error: "", isValid: false };
@@ -23,7 +24,7 @@ const Login = () => {
         phone: phone.value,
         password: pass.value,
       });
-
+      console.log(res);
       await Swal.fire(
         "Đăng nhập thành công",
         "Nhấn nút để đến trang chủ",

@@ -40,17 +40,17 @@
   .right {
     position: absolute;
     top: 50%;
-    right: 165px;
+    right: 270px;
     transform: translateY(-50%);
     display: flex;
     align-items: center;
     cursor: pointer;
 
-    // img {
-    //   border-radius: 50%;
-    //   width: 40px;
-    //   height: 40px;
-    // }
+    img {
+      border-radius: 50%;
+      width: 40px;
+      height: 40px;
+    }
     span {
       margin: 0;
       margin-left: 76px;
@@ -68,33 +68,68 @@
       margin-left: 5px;
       position: relative;
       top: 1px;
+      color: #262e53 !important;
+    }
+  }
+  .rightAva {
+    position: absolute;
+    top: 50%;
+    right: 38px;
+    transform: translateY(-50%);
+    display: flex;
+    align-items: center;
+    cursor: pointer;
+
+    img {
+      border-radius: 50%;
+      width: 40px;
+      height: 40px;
+    }
+    span {
+      margin: 0;
+      margin-left: 10px;
+      font-size: 1.5rem !important;
+      color: #262e53;
+      cursor: pointer;
+      &.active {
+        color: #fa8d1d;
+      }
+      &:hover {
+        color: #fa8d1d;
+      }
+    }
+    .icon {
+      margin-left: 5px;
+      position: relative;
+      top: 1px;
+      color: #262e53 !important;
     }
   }
 
-  // .menu {
-  //   width: max-content;
-  //   position: absolute;
-  //   top: calc(100% + 4px);
-  //   right: 0;
-  //   background-color: #fff;
-  //   border-radius: 4px;
-  //   border: 1px solid #d4d4d4;
-  //   padding: 4px 0;
-  //   z-index: 1;
-  //   .menuItem {
-  //     display: flex;
-  //     align-items: center;
-  //     padding: 8px 10px;
-  //     color: #404e67;
-  //     cursor: pointer;
+  .menu {
+    width: max-content;
+    position: absolute;
+    top: calc(100% + 4px);
+    right: 0;
+    background-color: #fff;
+    border-radius: 4px;
+    border: 1px solid #d4d4d4;
+    padding: 4px 0;
+    z-index: 1;
+    .menuItem {
+      display: flex;
+      align-items: center;
+      padding: 8px 10px;
+      color: #404e67;
+      cursor: pointer;
 
-  //     &:hover {
-  //       background-color: rgba(255, 51, 102, 0.1);
-  //     }
+      &:hover {
+        background-color: rgba(255, 51, 102, 0.1);
+      }
 
-  //     &.active {
-  //       color: #ff3366;
-  //     }
-  //   }
-  // }
+      &.active {
+        color: #fa8d1d;
+      }
+    }
+  }
 }
