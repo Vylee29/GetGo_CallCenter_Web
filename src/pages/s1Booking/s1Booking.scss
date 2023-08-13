@@ -55,9 +55,12 @@
       margin-left: 70rem;
     }
     &Type {
-      margin-top: 7.5rem;
+      margin-top: 7.1rem;
       margin-left: 70rem;
     }
+  }
+  .selectBox {
+    width: 30rem;
   }
   .t-xe-cho-khch-QN1 {
     color: #111827;
@@ -243,16 +246,46 @@
       }
 
       .selectTypeCar {
-        border: none;
-        width: 76rem;
-        font-family: Inter, "Source Sans Pro";
-        cursor: pointer;
-        outline: none;
-
-        option {
-          font-family: Inter, "Source Sans Pro";
+        background-color: #f9fafb;
+        color: black;
+        padding: 1px;
+        border: 1px solid #f9fafb;
+        border-radius: 4px;
+        height: 30px;
+        font-size: 14px;
+        width: 77.5rem;
+        overflow: hidden;
+        &:focus {
+          outline: none;
+          border-color: #ccc;
+          box-shadow: 0 0 5px #ccc;
         }
       }
+
+      .selectTypeCar option {
+        background-color: #f9fafb;
+        color: black;
+      }
+      .selectTypeCar::-webkit-select-placeholder {
+        color: #999; /* Màu chữ khi placeholder xuất hiện */
+      }
+
+      // .selectTypeCar::-moz-placeholder {
+      //   color: #999;
+      //   opacity: 1;
+      // }
+
+      // .selectTypeCar:-ms-input-placeholder {
+      //   color: #999;
+      // }
+
+      // .selectTypeCar::-ms-input-placeholder {
+      //   color: #999;
+      // }
+
+      // .selectTypeCar::placeholder {
+      //   color: #999;
+      // }
 
       .available-products-at-our-website-BHX {
         color: #111827;
@@ -289,7 +322,8 @@
     // position: absolute;
     // top: 64.6rem;
     white-space: nowrap;
-    width: 80rem;
+    width: 79rem;
+    margin-left: 2rem;
     outline: none;
     border: none;
     cursor: pointer;

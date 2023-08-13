@@ -1,6 +1,7 @@
 import React, { useState } from "react";
 import "./s1Booking.scss";
 import axios from "axios";
+import Select from "react-select";
 import { useEffect } from "react";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faCheckCircle } from "@fortawesome/free-regular-svg-icons";
@@ -277,7 +278,14 @@ const S1Booking = () => {
           }}
         >
           <div className="frame-79-GMb">
-            <p className="s-in-thoi-o6d">Số điện thoại </p>
+            <p
+              className="s-in-thoi-o6d"
+              style={{
+                color: phone.error !== "" ? "red" : "#6b7280",
+              }}
+            >
+              Số điện thoại{" "}
+            </p>
             <input
               className="website-hC1"
               placeholder="Nhập số điện thoại khách hàng"
@@ -296,7 +304,14 @@ const S1Booking = () => {
             }}
           >
             <div className="frame-79-uos">
-              <p className="a-ch-n-fo3">Địa chỉ đón</p>
+              <p
+                className="a-ch-n-fo3"
+                style={{
+                  color: address.error !== "" ? "red" : "#6b7280",
+                }}
+              >
+                Địa chỉ đón
+              </p>
               <input
                 className="available-products-at-our-website-av1"
                 placeholder="Nhập địa chỉ đón khách hàng"
@@ -315,7 +330,14 @@ const S1Booking = () => {
             }}
           >
             <div className="frame-79-WBP">
-              <p className="loi-xe-3SD">Loại xe</p>
+              <p
+                className="loi-xe-3SD"
+                style={{
+                  color: type.error !== "" ? "red" : "#6b7280",
+                }}
+              >
+                Loại xe
+              </p>
               {/* <input
                 className="available-products-at-our-website-BHX"
                 placeholder="Nhập loại xe khách hàng mong muốn"
