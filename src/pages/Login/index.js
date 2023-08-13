@@ -2,17 +2,16 @@ import React from "react";
 import { useState, useEffect } from "react";
 import Swal from "sweetalert2";
 import axios from "axios";
+import { useNavigate } from "react-router-dom";
 import withReactContent from "sweetalert2-react-content";
 import styles from "./login.module.scss";
 const Login = () => {
-  const [data, setData] = useState(() => {
-    return { email: "", pass: "", isValid: false };
-  });
-  const [email, setEmail] = useState(() => {
-    return { value: "", error: " ", isValid: false };
+  const Nav = useNavigate();
+  const [phone, setPhone] = useState(() => {
+    return { value: "", error: "", isValid: false };
   });
   const [pass, setPass] = useState(() => {
-    return { value: "", error: " ", isValid: false };
+    return { value: "", error: "", isValid: false };
   });
   const handleLogin = async (e) => {
     e.preventDefault();
@@ -20,48 +19,54 @@ const Login = () => {
       // if (localStorage.getItem('user') !== undefined) {
       //     localStorage.removeItem('user')
       // }
-      const res = await axios.post("http://localhost:3000//v1/users/login", {
-        Email: email.value,
-        Pass: pass.value,
+      const res = await axios.post("http://localhost:3100/v1/users/login", {
+        phone: phone.value,
+        password: pass.value,
       });
-      //await LoginHandler(res.data.emailAvailable);
+
       await Swal.fire(
         "Đăng nhập thành công",
         "Nhấn nút để đến trang chủ",
         "success"
       );
-      //Nav(res.data.link);
+      Nav("/");
     } catch (err) {
       await Swal.fire(
-        err.response.data,
+        err.response.data.error,
         "Nhấn nút để thực hiện lại việc đăng nhập",
         "error"
       );
     }
   };
+  const handlePhoneNumber = (e) => {
+    const inputValue = e.target.value;
+    const formattedValue = inputValue.startsWith("0")
+      ? "+84" + inputValue.slice(1)
+      : inputValue;
+    setPhone({
+      ...phone,
+      value: formattedValue,
+      isValid: true,
+    });
+  };
   useEffect(() => {
-    // const filter =
-    //   /^([a-zA-Z0-9_\.\-])+\@(([a-zA-Z0-9\-])+\.)+([a-zA-Z0-9]{2,4})+$/;
-    if (data.isValid === true) {
+    if (phone.isValid === true) {
       const identifier = setTimeout(() => {
-        // if (!filter.test(data.email)) {
-        //   setEmail({ ...email, error: "Email không đúng", isValid: false });
-        // } else
-        if (data.email.length === 0) {
-          setEmail({ ...email, error: "Thông tin bắt buộc", isValid: false });
+        if (phone.value.length === 0) {
+          setPhone({ ...phone, error: "Thông tin bắt buộc", isValid: false });
         } else {
-          setEmail({ ...email, error: " ", isValid: true });
+          setPhone({ ...phone, error: "", isValid: true });
         }
       }, 500);
       return () => {
         clearTimeout(identifier);
       };
     }
-  }, [data.email]);
+  }, [phone.value]);
   useEffect(() => {
-    if (data.isValid === true) {
+    if (pass.isValid === true) {
       const identifier = setTimeout(() => {
-        if (data.pass.length === 0) {
+        if (pass.value.length === 0) {
           setPass({ ...pass, error: "Thông tin bắt buộc", isValid: false });
         } else {
           setPass({ ...pass, error: " ", isValid: true });
@@ -71,7 +76,7 @@ const Login = () => {
         clearTimeout(identifier);
       };
     }
-  }, [data.pass]);
+  }, [pass.value]);
   return (
     <div className={styles.wrap}>
       <div className={styles.introduction}>
@@ -88,7 +93,6 @@ const Login = () => {
           </div>
         </div>
         <p className={styles.title1}>Welcome Back</p>
-        {/* <p className={styles.title2}>Solution for a great trip</p> */}
         <img
           className={styles.image}
           src="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcTXQzXO4LTsDVA9eXc2v5Vr16-joNVnfNieiwII9SSWBkGBOv8N"
@@ -102,7 +106,7 @@ const Login = () => {
           <p className={styles.title}>Đăng nhập vào tài khoản</p>
           <div>
             <label className={styles.label}>
-              Email
+              Số điện thoại
               <span>*</span>
             </label>
             <div>
@@ -112,16 +116,10 @@ const Login = () => {
                 name="phone"
                 type="text"
                 placeholder="Nhập số điện thoại"
-                onChange={(e) =>
-                  setData({
-                    ...data,
-                    email: "+84" + e.target.value,
-                    isValid: true,
-                  })
-                }
+                onChange={handlePhoneNumber}
               />
             </div>
-            <p className={styles.err}>{email.error}</p>
+            <p className={styles.err}>{phone.error}</p>
           </div>
           <div>
             <label className={styles.label}>
@@ -136,7 +134,7 @@ const Login = () => {
                 type="password"
                 placeholder="Nhập mật khẩu"
                 onChange={(e) =>
-                  setData({ ...data, pass: e.target.value, isValid: true })
+                  setPass({ ...pass, value: e.target.value, isValid: true })
                 }
               />
             </div>
