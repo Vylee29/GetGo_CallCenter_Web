@@ -65,7 +65,7 @@ const S3Booking = () => {
             {trip.listTrip.map((e) => {
               return <ItemTrip
                 key={e.id}
-                className={trip.tripInfor.id === e.id ? 'select_trip' : ''}
+                className={trip.tripInfor?.id === e.id ? 'select_trip' : ''}
 
                 tripInfo={e}
                 onClick={handleChangeTripInformation}
@@ -154,7 +154,7 @@ const S3Booking = () => {
 
                   </div>
                   <div className="item-0974220702-gns" id="974:6323">
-                    driver{trip.tripInfor.driver_id}
+                    driver{trip?.tripInfor?.driver_id}
 
 
                   </div>
@@ -166,7 +166,7 @@ const S3Booking = () => {
                   SĐT
                 </div>
                 <div className="item-0974220702-gns" id="974:6323">
-                  {trip.tripInfor.driver?.phone}
+                  {trip.tripInfor?.driver?.phone}
 
                 </div>
               </div>
@@ -222,7 +222,7 @@ const S3Booking = () => {
                   TÊN PHƯƠNG TIỆN
                 </div>
                 <div className="item-0974220702-gns" id="974:6323">
-                  {trip.tripInfor.driver?.driver_vehicle?.name}
+                  {trip.tripInfor?.driver?.driver_vehicle?.name}
 
 
                 </div>
@@ -232,7 +232,7 @@ const S3Booking = () => {
                   BIỂN SỐ
                 </div>
                 <div className="item-0974220702-gns" id="974:6323">
-                  {trip.tripInfor.driver?.driver_vehicle?.license_plate}
+                  {trip.tripInfor?.driver?.driver_vehicle?.license_plate}
 
                 </div>
               </div>
@@ -241,7 +241,7 @@ const S3Booking = () => {
                   SỐ CHỖ
                 </div>
                 <div className="khng-54K" id="974:6325">
-                  {trip.tripInfor.driver?.driver_vehicle?.vehicle_type?.name}
+                  {trip.tripInfor?.driver?.driver_vehicle?.vehicle_type?.name}
 
 
                 </div>

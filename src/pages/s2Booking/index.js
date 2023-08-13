@@ -19,21 +19,20 @@ const S2Booking = () => {
   const trip = useContext(AuthContext)
   console.log(trip);
   const [data, setData] = useState([
-    { user_phone: "0975220845", address: "chuyen dungf 9", type: "3", id: '1111' },
-    { user_phone: "0975220845", address: "uyen dungf 9", type: "3", id: '' }])
+    { user_phone: "0975220845", startAddress: "chuyen dungf 9", type: "3", id: '1111' },
+    { user_phone: "0975220845", startAddress: "uyen dungf 9", type: "3", id: '' }])
 
   const [tripInfo, setTripInfo] = useState(() => {
-    return { user_phone: "0975220845", address: "chuyen dungf 9", type: "3", id: '1111' };
+    return { user_phone: "0975220845", startAddress: "chuyen dungf 9", type: "3", id: '1111' };
   });
   const handleChangeTripInformation = (tripInfo) => {
     setTripInfo(tripInfo);
   };
 
   // Auto complete
-  const [address, setAddress] = useState("");
 
   const handleChangeAddress = (newAddress) => {
-    const updatedTripInfo = { ...tripInfo, address: newAddress };
+    const updatedTripInfo = { ...tripInfo, startAddress: newAddress };
     // Cập nhật state mới
     setTripInfo(updatedTripInfo);
   };
@@ -42,7 +41,7 @@ const S2Booking = () => {
     lng: 77.01502627,
   });
   const handleSelect = (address) => {
-    const updatedTripInfo = { ...tripInfo, address: address };
+    const updatedTripInfo = { ...tripInfo, startAddress: address };
     setTripInfo(updatedTripInfo);
 
     geocodeByAddress(address)
@@ -58,10 +57,18 @@ const S2Booking = () => {
 
     } else {
       try {
+        console.log({
+          "trip_id": tripInfo.id,
+          "start": {
+            "place": tripInfo.startAddress,
+            "lat": coords.lat,
+            "lng": coords.lng
+          }
+        })
         const respond = await axios.post("http://localhost:3000/v1/booking/callcenters2", {
           "trip_id": tripInfo.id,
           "start": {
-            "place": tripInfo.address,
+            "place": tripInfo.startAddress,
             "lat": coords.lat,
             "lng": coords.lng
           }
@@ -168,7 +175,7 @@ const S2Booking = () => {
             </div>
 
             <PlacesAutocomplete
-              value={tripInfo.address}
+              value={tripInfo.startAddress}
               onChange={handleChangeAddress}
               onSelect={handleSelect}
             >
@@ -194,7 +201,7 @@ const S2Booking = () => {
                           placeholder: "Nhập địa chỉ đã được định vị",
                           className: "available-products-at-our-website-znq",
                         })}
-                        value={tripInfo.address}
+                        value={tripInfo.startAddress}
                       />
                     </div>
                   </div>

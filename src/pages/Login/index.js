@@ -2,21 +2,21 @@ import React, { useContext } from "react";
 import { useState, useEffect } from "react";
 import Swal from "sweetalert2";
 import axios from "axios";
+import { useNavigate } from "react-router-dom";
 import withReactContent from "sweetalert2-react-content";
 import styles from "./login.module.scss";
-import { useNavigate } from "react-router-dom";
+// import { useNavigate } from "react-router-dom";
 import AuthContext from "../../contexts/auth-context";
 const Login = () => {
   const authCtx = useContext(AuthContext)
+
+  const user_info = JSON.parse(localStorage.getItem("user_info"));
   const Nav = useNavigate();
-  const [data, setData] = useState(() => {
-    return { phone: "+84888888888", pass: "000000", isValid: false };
-  });
   const [phone, setPhone] = useState(() => {
-    return { value: "", error: " ", isValid: false };
+    return { value: "", error: "", isValid: false };
   });
   const [pass, setPass] = useState(() => {
-    return { value: "", error: " ", isValid: false };
+    return { value: "", error: "", isValid: false };
   });
   const handleLogin = async (e) => {
     e.preventDefault();
@@ -24,12 +24,11 @@ const Login = () => {
       // if (localStorage.getItem('user') !== undefined) {
       //     localStorage.removeItem('user')
       // }
-      console.log(data)
       const res = await axios.post("http://localhost:3000/v1/users/login", {
-        phone: data.phone,
-        password: data.pass,
+        phone: phone.value,
+        password: pass.value,
       });
-      //await LoginHandler(res.data.emailAvailable);
+      console.log(res);
       await Swal.fire(
         "Đăng nhập thành công",
         "Nhấn nút để đến trang chủ",
@@ -40,6 +39,7 @@ const Login = () => {
       Nav('/')
       //Nav(res.data.link);
     } catch (err) {
+      console.log(err)
       await Swal.fire(
         err.response.data.error,
         "Nhấn nút để thực hiện lại việc đăng nhập",
@@ -47,29 +47,35 @@ const Login = () => {
       );
     }
   };
+  const handlePhoneNumber = (e) => {
+    const inputValue = e.target.value;
+    const formattedValue = inputValue.startsWith("0")
+      ? "+84" + inputValue.slice(1)
+      : inputValue;
+    setPhone({
+      ...phone,
+      value: formattedValue,
+      isValid: true,
+    });
+  };
   useEffect(() => {
-    // const filter =
-    //   /^([a-zA-Z0-9_\.\-])+\@(([a-zA-Z0-9\-])+\.)+([a-zA-Z0-9]{2,4})+$/;
-    if (data.isValid === true) {
+    if (phone.isValid === true) {
       const identifier = setTimeout(() => {
-        // if (!filter.test(data.email)) {
-        //   setEmail({ ...email, error: "Email không đúng", isValid: false });
-        // } else
-        if (data.phone.length === 0) {
+        if (phone.value.length === 0) {
           setPhone({ ...phone, error: "Thông tin bắt buộc", isValid: false });
         } else {
-          setPhone({ ...phone, error: " ", isValid: true });
+          setPhone({ ...phone, error: "", isValid: true });
         }
       }, 500);
       return () => {
         clearTimeout(identifier);
       };
     }
-  }, [data.phone]);
+  }, [phone.value]);
   useEffect(() => {
-    if (data.isValid === true) {
+    if (pass.isValid === true) {
       const identifier = setTimeout(() => {
-        if (data.pass.length === 0) {
+        if (pass.value.length === 0) {
           setPass({ ...pass, error: "Thông tin bắt buộc", isValid: false });
         } else {
           setPass({ ...pass, error: " ", isValid: true });
@@ -79,7 +85,7 @@ const Login = () => {
         clearTimeout(identifier);
       };
     }
-  }, [data.pass]);
+  }, [pass.value]);
   return (
     <div className={styles.wrap}>
       <div className={styles.introduction}>
@@ -96,7 +102,6 @@ const Login = () => {
           </div>
         </div>
         <p className={styles.title1}>Welcome Back</p>
-        {/* <p className={styles.title2}>Solution for a great trip</p> */}
         <img
           className={styles.image}
           src="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcTXQzXO4LTsDVA9eXc2v5Vr16-joNVnfNieiwII9SSWBkGBOv8N"
@@ -110,7 +115,7 @@ const Login = () => {
           <p className={styles.title}>Đăng nhập vào tài khoản</p>
           <div>
             <label className={styles.label}>
-              Phone
+              Số điện thoại
               <span>*</span>
             </label>
             <div>
@@ -120,13 +125,7 @@ const Login = () => {
                 name="phone"
                 type="text"
                 placeholder="Nhập số điện thoại"
-                onChange={(e) =>
-                  setData({
-                    ...data,
-                    phone: "+84" + e.target.value,
-                    isValid: true,
-                  })
-                }
+                onChange={handlePhoneNumber}
               />
             </div>
             <p className={styles.err}>{phone.error}</p>
@@ -144,7 +143,7 @@ const Login = () => {
                 type="password"
                 placeholder="Nhập mật khẩu"
                 onChange={(e) =>
-                  setData({ ...data, pass: e.target.value, isValid: true })
+                  setPass({ ...pass, value: e.target.value, isValid: true })
                 }
               />
             </div>

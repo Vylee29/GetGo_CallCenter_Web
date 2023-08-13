@@ -132,7 +132,7 @@ const S1Booking = () => {
     }
   }, [type.value]);
   // useEffect(() => {
-  //   axios.get("http://localhost:3001/getallvehicles").then(function (response) {
+  //   axios.get("http://localhost:3000/getallvehicles").then(function (response) {
   //     setListCar(response.data)
 
   //   }).catch(function (error) { console.log(error); })
@@ -151,7 +151,7 @@ const S1Booking = () => {
       console.log(phoneRegex.test(e.target.value));
       let convertPhone = "+84" + e.target.value.slice(1);
       axios
-        .get("http://localhost:3001/v1/history/phone?phone=" + convertPhone)
+        .get("http://localhost:3000/v1/history/phone?phone=" + convertPhone)
         .then(function (response) {
           console.log(response.data);
           setHistory(response.data.trips);
@@ -188,14 +188,14 @@ const S1Booking = () => {
       };
       console.log(data);
       axios
-        .post("http://localhost:3001/v1/booking/callcenters1", data, {
+        .post("http://localhost:3000/v1/booking/callcenters1", data, {
           headers: {
             "Content-Type": "application/json",
           },
         })
         .then(function (response) {
           console.log(response);
-          if (response.data.statusCode == 200)
+          if (response.data.statusCode === 200)
             setMessage("Định vị chuyến đi thành công");
           else setMessage("Định vị chuyến đi thất bại");
           setShowNotification(true);
@@ -216,14 +216,14 @@ const S1Booking = () => {
         carType: type.value,
       };
       axios
-        .post("http://localhost:3001/v1/booking/callcenters1", data, {
+        .post("http://localhost:3000/v1/booking/callcenters1", data, {
           headers: {
             "Content-Type": "application/json",
           },
         })
         .then(function (response) {
           console.log(response);
-          if (response.data.statusCode == 200)
+          if (response.data.statusCode === 200)
             setMessage("Định vị chuyến đi thành công");
           else setMessage("Định vị chuyến đi thất bại");
           setShowNotification(true);

@@ -54,6 +54,9 @@ export const AuthContextProvider = (props) => {
                     })
                     newSocket.on('s2-update-trip', (data) => {
                         const updatedItemList = [data, ...listTrip];
+                        console.log(updatedItemList)
+                        console.log('data11111111')
+
                         setListTrip(updatedItemList)
                         console.log('data11111111')
                         console.log(data)
@@ -62,6 +65,12 @@ export const AuthContextProvider = (props) => {
                     newSocket.on('s3-trip', (data) => {
                         setListTrip(data)
                         setTripInfor(data[0])
+                        console.log('data11111111')
+                        console.log(data)
+                    })
+                    newSocket.on('s3-update-trip', (data) => {
+                        const updatedItemList = [data, ...listTrip];
+                        setListTrip(updatedItemList)
                         console.log('data11111111')
                         console.log(data)
                     })
@@ -83,6 +92,8 @@ export const AuthContextProvider = (props) => {
 
     const logoutHandler = () => {
         localStorage.removeItem('user')
+        setListTrip([])
+        // Nav('/')
         setIsLoggedIn(false)
     }
     const loginHandler = (user_info) => {
