@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useContext, useState } from "react";
 import "./s2Booking.scss";
 import GoogleMapReact from "google-map-react";
 // import { geocodeByAddress, getLatLng } from 'react-google-places-autocomplete';
@@ -11,32 +11,71 @@ import {
   geocodeByPlaceId,
   getLatLng,
 } from "react-places-autocomplete";
+import AuthContext, { TripContext } from "../../contexts/auth-context";
+import axios, { Axios } from "axios";
 const AnyReactComponent = ({ text }) => <div>{text}</div>;
 
 const S2Booking = () => {
+  const trip = useContext(AuthContext)
+  console.log(trip);
+  const [data, setData] = useState([
+    { user_phone: "0975220845", address: "chuyen dungf 9", type: "3", id: '1111' },
+    { user_phone: "0975220845", address: "uyen dungf 9", type: "3", id: '' }])
+
+  const [tripInfo, setTripInfo] = useState(() => {
+    return { user_phone: "0975220845", address: "chuyen dungf 9", type: "3", id: '1111' };
+  });
+  const handleChangeTripInformation = (tripInfo) => {
+    setTripInfo(tripInfo);
+  };
+
+  // Auto complete
+  const [address, setAddress] = useState("");
+
+  const handleChangeAddress = (newAddress) => {
+    const updatedTripInfo = { ...tripInfo, address: newAddress };
+    // Cập nhật state mới
+    setTripInfo(updatedTripInfo);
+  };
   const [coords, setCoords] = useState({
     lat: 10.99835602,
     lng: 77.01502627,
   });
-  const [address, setAddress] = useState("");
-  const [tripInfo, setTripInfo] = useState(() => {
-    return { telephone: "", address: "", driveType: "" };
-  });
-  const handleChangeTripInformation = (tripInfo) => {
-    console.log("HIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIII");
-    setTripInfo(tripInfo);
-    console.log(tripInfo);
-  };
-  const handleChange = (address) => {
-    setAddress(address);
-  };
-
   const handleSelect = (address) => {
+    const updatedTripInfo = { ...tripInfo, address: address };
+    setTripInfo(updatedTripInfo);
+
     geocodeByAddress(address)
       .then((results) => getLatLng(results[0]))
-      .then((latLng) => console.log("Success", latLng))
+      .then((latLng) => console.log("Success", setCoords(latLng)))
       .catch((error) => console.error("Error", error));
   };
+  const submitOrder = async () => {
+    if (coords === {
+      lat: 10.99835602,
+      lng: 77.01502627,
+    }) {
+
+    } else {
+      try {
+        const respond = await axios.post("http://localhost:3000/v1/booking/callcenters2", {
+          "trip_id": tripInfo.id,
+          "start": {
+            "place": tripInfo.address,
+            "lat": coords.lat,
+            "lng": coords.lng
+          }
+        })
+        console.log(respond);
+        if (respond.data.statusCode === 200) {
+          trip.handleListTrip(tripInfo.id)
+        }
+      } catch (error) {
+        console.log(error);
+      }
+
+    }
+  }
   // const defaultProps = {
   //   center: {
   //     lat: 10.99835602,
@@ -44,13 +83,13 @@ const S2Booking = () => {
   //   },
   //   zoom: 11
   // };
-  const onChangeAddress = async (e) => {
-    console.log(e.target.value);
-    const result = await geocodeByAddress("quận");
-    console.log(result);
-    // const lnglat = await getLatLng(result[0])
-    // setCoords(lnglat);
-  };
+  // const onChangeAddress = async (e) => {
+  //   console.log(e.target.value);
+  //   const result = await geocodeByAddress("quận");
+  //   console.log(result);
+  //   // const lnglat = await getLatLng(result[0])
+  //   // setCoords(lnglat);
+  // };
 
   return (
     <React.Fragment>
@@ -83,10 +122,14 @@ const S2Booking = () => {
                 />
               </div>
             </div>
-            <ItemTrip
-              tripInfo={tripInfo}
-              onClick={handleChangeTripInformation}
-            />
+            {trip.listTrip.map((e) => {
+              return <ItemTrip
+                className={tripInfo.id === e.id ? 'select_trip' : ''}
+
+                tripInfo={e}
+                onClick={handleChangeTripInformation}
+              />
+            })}
             {/* <ItemTrip tripInfo={tripInfo} />
             <ItemTrip tripInfo={tripInfo} /> */}
           </div>
@@ -105,7 +148,7 @@ const S2Booking = () => {
                   Số điện thoại
                 </p>
                 <p className="website-jCh" id="877:5263">
-                  {tripInfo.telephone}
+                  {tripInfo.user_phone}
                 </p>
               </div>
             </div>
@@ -119,14 +162,14 @@ const S2Booking = () => {
                   className="available-products-at-our-website-pQV"
                   id="877:5271"
                 >
-                  {tripInfo.driveType}
+                  {tripInfo.type}
                 </p>
               </div>
             </div>
 
             <PlacesAutocomplete
-              value={address}
-              onChange={handleChange}
+              value={tripInfo.address}
+              onChange={handleChangeAddress}
               onSelect={handleSelect}
             >
               {({
@@ -224,7 +267,7 @@ const S2Booking = () => {
                   }
                 />
               </GoogleMapReact>
-              <div className="input-qqP" id="877:5272">
+              <div onClick={submitOrder} className="input-qqP" id="877:5272">
                 ĐIỀU PHỐI
               </div>
             </div>

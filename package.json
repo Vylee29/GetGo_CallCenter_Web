@@ -26,6 +26,7 @@
     "react-scripts": "5.0.1",
     "react-select": "^5.7.4",
     "sass": "^1.63.6",
+    "socket.io-client": "^4.7.2",
     "sweetalert2": "^11.7.18",
     "sweetalert2-react-content": "^5.0.7",
     "use-places-autocomplete": "^4.0.0",

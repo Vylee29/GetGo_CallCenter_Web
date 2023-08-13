@@ -1,19 +1,22 @@
 import React from "react";
 import "./itemTrip.scss";
 
-const ItemTrip = ({ tripInfo, onClick }) => {
+const ItemTrip = ({ tripInfo, onClick, className }) => {
   const onClickHandler = () => {
     console.log("Hello");
     onClick({ ...tripInfo });
   };
   return (
-    <div className="triplist-VfB" id="880:6195" onClick={onClickHandler}>
+    <div className={`triplist-VfB ${className}`} id="880:6195" onClick={onClickHandler}>
       <div className="am-4-ch-nuB" id="I880:6195;879:8898">
-        9:45AM - {tripInfo.tripType}
+        9:45AM - {tripInfo.type}
       </div>
 
       <div className="auto-group-yztf-Siq" id="BCJzR3GdSo4TvkcW1HYzTf">
-        TRPAA001
+        <span>TRPAA{tripInfo.id}</span>
+        <div className="tripstatus"><svg xmlns="http://www.w3.org/2000/svg" width="8" height="6" viewBox="0 0 8 6" fill="none">
+          <ellipse id="Ellipse 368" cx="3.87245" cy="3" rx="3.51064" ry="3" fill="#FF637A" />
+        </svg>  <span> Đang đến đón khách</span></div>
       </div>
       <div className="auto-group-4ws1-Wyb" id="BCJzYsNv7vtdhZUAnS4WS1">
         <div className="group-37331-Ttq" id="I880:6195;879:8894">
@@ -71,7 +74,7 @@ const ItemTrip = ({ tripInfo, onClick }) => {
               </defs>
             </svg>
             <div className="address-E2R" id="I880:6195;879:8890">
-              {tripInfo.address}
+              {tripInfo.startAddress}
             </div>
           </div>
           <div className="auto-group-9tvf-5Hw" id="BCJzxSXyRnzpcPz13R9TVf">
@@ -80,7 +83,7 @@ const ItemTrip = ({ tripInfo, onClick }) => {
             <div className="line-68-pPw" id="I880:6195;879:8876"></div>
             <div className="line-66-wzM" id="I880:6195;879:8875"></div>
           </div>
-          <div className="auto-group-rwgr-UzH" id="BCJzq2afAxF4oerTszRwGR">
+          <div className="auto-group-eor7-NF7" id="BCJzq2afAxF4oerTszRwGR">
             <svg
               xmlns="http://www.w3.org/2000/svg"
               width="29"
@@ -109,6 +112,9 @@ const ItemTrip = ({ tripInfo, onClick }) => {
                 </clipPath>
               </defs>
             </svg>
+            <div className="address-E2R" id="I880:6195;879:8890">
+              {tripInfo.startAddress}
+            </div>
           </div>
         </div>
         <div className="line-70-kS1" id="I880:6195;879:8895"></div>

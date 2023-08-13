@@ -1,14 +1,18 @@
-import React from "react";
+import React, { useContext } from "react";
 import { useState, useEffect } from "react";
 import Swal from "sweetalert2";
 import axios from "axios";
 import withReactContent from "sweetalert2-react-content";
 import styles from "./login.module.scss";
+import { useNavigate } from "react-router-dom";
+import AuthContext from "../../contexts/auth-context";
 const Login = () => {
+  const authCtx = useContext(AuthContext)
+  const Nav = useNavigate();
   const [data, setData] = useState(() => {
-    return { email: "", pass: "", isValid: false };
+    return { phone: "+84888888888", pass: "000000", isValid: false };
   });
-  const [email, setEmail] = useState(() => {
+  const [phone, setPhone] = useState(() => {
     return { value: "", error: " ", isValid: false };
   });
   const [pass, setPass] = useState(() => {
@@ -20,9 +24,10 @@ const Login = () => {
       // if (localStorage.getItem('user') !== undefined) {
       //     localStorage.removeItem('user')
       // }
-      const res = await axios.post("http://localhost:3000//v1/users/login", {
-        Email: email.value,
-        Pass: pass.value,
+      console.log(data)
+      const res = await axios.post("http://localhost:3000/v1/users/login", {
+        phone: data.phone,
+        password: data.pass,
       });
       //await LoginHandler(res.data.emailAvailable);
       await Swal.fire(
@@ -30,10 +35,13 @@ const Login = () => {
         "Nhấn nút để đến trang chủ",
         "success"
       );
+      console.log(res.data.user_info)
+      authCtx.onLogin(res.data.user_info);
+      Nav('/')
       //Nav(res.data.link);
     } catch (err) {
       await Swal.fire(
-        err.response.data,
+        err.response.data.error,
         "Nhấn nút để thực hiện lại việc đăng nhập",
         "error"
       );
@@ -47,17 +55,17 @@ const Login = () => {
         // if (!filter.test(data.email)) {
         //   setEmail({ ...email, error: "Email không đúng", isValid: false });
         // } else
-        if (data.email.length === 0) {
-          setEmail({ ...email, error: "Thông tin bắt buộc", isValid: false });
+        if (data.phone.length === 0) {
+          setPhone({ ...phone, error: "Thông tin bắt buộc", isValid: false });
         } else {
-          setEmail({ ...email, error: " ", isValid: true });
+          setPhone({ ...phone, error: " ", isValid: true });
         }
       }, 500);
       return () => {
         clearTimeout(identifier);
       };
     }
-  }, [data.email]);
+  }, [data.phone]);
   useEffect(() => {
     if (data.isValid === true) {
       const identifier = setTimeout(() => {
@@ -102,7 +110,7 @@ const Login = () => {
           <p className={styles.title}>Đăng nhập vào tài khoản</p>
           <div>
             <label className={styles.label}>
-              Email
+              Phone
               <span>*</span>
             </label>
             <div>
@@ -115,13 +123,13 @@ const Login = () => {
                 onChange={(e) =>
                   setData({
                     ...data,
-                    email: "+84" + e.target.value,
+                    phone: "+84" + e.target.value,
                     isValid: true,
                   })
                 }
               />
             </div>
-            <p className={styles.err}>{email.error}</p>
+            <p className={styles.err}>{phone.error}</p>
           </div>
           <div>
             <label className={styles.label}>
