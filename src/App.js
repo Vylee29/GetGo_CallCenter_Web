@@ -1,4 +1,4 @@
-import { Fragment, useRef, useEffect } from "react";
+import { Fragment, useRef, useEffect, useState } from "react";
 import React from "react";
 import Home from "../src/pages/Home";
 
@@ -68,22 +68,21 @@ function App() {
   //     };
   //   }
   // }, [isLoggedIn]);
+  const [render, setRender] = useState(true)
   const user = JSON.parse(localStorage.getItem('user')) || {}
-
+  console.log('in ra ròi nè')
   return (
-    <Router>
-      <div>
-        <AuthContextProvider>
-          <Routes>
-            {renderRoutes(publicRoutes)}
+    <AuthContextProvider render={render} setRender={setRender}>
+      <Router>
+        <Routes>
+          {renderRoutes(publicRoutes)}
 
-            {user?.type === "CallCenterS2" && renderRoutes(publicRoutesS2)}
-            {user?.type === "CallCenterS3" && renderRoutes(publicRoutesS3)}
-            {user?.type === "CallCenterS1" && renderRoutes(publicRoutesS1)}
-          </Routes>
-        </AuthContextProvider>
-      </div>
-    </Router>
+          {user?.type === "CallCenterS2" && renderRoutes(publicRoutesS2)}
+          {user?.type === "CallCenterS3" && renderRoutes(publicRoutesS3)}
+          {user?.type === "CallCenterS1" && renderRoutes(publicRoutesS1)}
+        </Routes>
+      </Router>
+    </AuthContextProvider>
   );
 }
 

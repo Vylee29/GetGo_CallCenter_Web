@@ -13,17 +13,21 @@ import {
 } from "react-places-autocomplete";
 import AuthContext, { TripContext } from "../../contexts/auth-context";
 import axios, { Axios } from "axios";
+
+import { ToastContainer, toast } from 'react-toastify';
+import 'react-toastify/dist/ReactToastify.css';
 const AnyReactComponent = ({ text }) => <div>{text}</div>;
 
 const S2Booking = () => {
   const trip = useContext(AuthContext)
+  console.log('trip');
   console.log(trip);
   const [data, setData] = useState([
     { user_phone: "0975220845", startAddress: "chuyen dungf 9", type: "3", id: '1111' },
     { user_phone: "0975220845", startAddress: "uyen dungf 9", type: "3", id: '' }])
 
   const [tripInfo, setTripInfo] = useState(() => {
-    return { user_phone: "0975220845", startAddress: "chuyen dungf 9", type: "3", id: '1111' };
+    return { user_phone: "", startAddress: "", type: "", id: '' };
   });
   const handleChangeTripInformation = (tripInfo) => {
     setTripInfo(tripInfo);
@@ -75,9 +79,12 @@ const S2Booking = () => {
         })
         console.log(respond);
         if (respond.data.statusCode === 200) {
+          toast.success("Điều phối chuyến đi thành công")
           trip.handleListTrip(tripInfo.id)
         }
       } catch (error) {
+        toast.error("Điều phối chuyến đi thất bại")
+
         console.log(error);
       }
 
@@ -132,7 +139,7 @@ const S2Booking = () => {
             {trip.listTrip.map((e) => {
               return <ItemTrip
                 className={tripInfo.id === e.id ? 'select_trip' : ''}
-
+                key={e.id}
                 tripInfo={e}
                 onClick={handleChangeTripInformation}
               />

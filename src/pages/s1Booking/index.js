@@ -6,6 +6,9 @@ import { useEffect } from "react";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faCheckCircle } from "@fortawesome/free-regular-svg-icons";
 import { faCoffee } from "@fortawesome/free-solid-svg-icons";
+
+import { ToastContainer, toast } from 'react-toastify';
+import 'react-toastify/dist/ReactToastify.css';
 const Notification = ({ message, onClose }) => {
   return (
     <div className="notification">
@@ -195,21 +198,25 @@ const S1Booking = () => {
         })
         .then(function (response) {
           console.log(response);
-          if (response.data.statusCode === 200)
-            setMessage("Định vị chuyến đi thành công");
-          else setMessage("Định vị chuyến đi thất bại");
-          setShowNotification(true);
+          toast.success("Định vị chuyến đi thành công")
+          setAddress({ value: "", error: "", isValid: false })
+          setType({ value: "", error: "", isValid: false })
+          setPhone({ value: "", error: "", isValid: false })
         })
         .catch(function (error) {
-          console.log(error);
+          console.log('mayf har')
+          toast.error('Xin lỗi quý khách server bị sập')
+
+          console.log(error.response.data);
         });
+    } else {
+      console.log('heeeloo')
+      toast.error('Vui lòng điền đầy đủ thông tin chính xác')
     }
   };
 
   const handleBookCar = (trip) => {
     if (type.isValid) {
-
-
       const data = {
         start: trip,
         phone: "+84" + phone.value.slice(1),
@@ -223,13 +230,15 @@ const S1Booking = () => {
         })
         .then(function (response) {
           console.log(response);
-          if (response.data.statusCode === 200)
-            setMessage("Định vị chuyến đi thành công");
-          else setMessage("Định vị chuyến đi thất bại");
-          setShowNotification(true);
+          toast.success("Đã điều phối chuyến đi thành công")
+          setAddress({ value: "", error: "", isValid: false })
+          setType({ value: "", error: "", isValid: false })
+          setPhone({ value: "", error: "", isValid: false })
+          setHistory([])
         })
         .catch(function (error) {
-          console.log(error);
+          toast.error("Xin lỗi server gặp một chút chục trặc")
+
         });
     }
   };
@@ -239,6 +248,7 @@ const S1Booking = () => {
       {showNotification && (
         <Notification message={message} onClose={handleNotificationClose} />
       )}
+      <ToastContainer />
       <div className="st-book-driver-page-callcenter-C13">
         <p className="t-xe-cho-khch-QN1">ĐẶT XE CHO KHÁCH</p>
         <div className="section-header-Z1w">

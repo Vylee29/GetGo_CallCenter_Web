@@ -63,7 +63,10 @@ const Header = () => {
               <FontAwesomeIcon icon={faHome} className={classes.icon} />
               <span>Trang chủ</span>
             </Link>
-            <div onClick={auth.onLogout} className={classes.menuItem}>
+            <div onClick={() => {
+              auth.onLogout()
+              Nav('/login')
+            }} className={classes.menuItem}>
               <FontAwesomeIcon icon={faSignOut} className={classes.icon} />
               <span>Đăng xuất</span>
             </div>

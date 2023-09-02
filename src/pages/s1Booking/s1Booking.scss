@@ -39,9 +39,10 @@
 
 .st-book-driver-page-callcenter-C13 {
   background-color: #ffffff;
-  height: 102.4rem;
+  // height: 102.4rem;
   //position: relative;
   width: 100%;
+
   .errorMsg {
     color: red;
     font-size: 12px;
@@ -50,18 +51,22 @@
     display: flex;
     height: 2rem;
     margin: 0;
+
     &Address {
       margin-top: 16.6rem;
       margin-left: 70rem;
     }
+
     &Type {
       margin-top: 7.1rem;
       margin-left: 70rem;
     }
   }
+
   .selectBox {
     width: 30rem;
   }
+
   .t-xe-cho-khch-QN1 {
     color: #111827;
     font-family: Inter, "Source Sans Pro";
@@ -255,6 +260,7 @@
         font-size: 14px;
         width: 77.5rem;
         overflow: hidden;
+
         &:focus {
           outline: none;
           border-color: #ccc;
@@ -266,8 +272,10 @@
         background-color: #f9fafb;
         color: black;
       }
+
       .selectTypeCar::-webkit-select-placeholder {
-        color: #999; /* Màu chữ khi placeholder xuất hiện */
+        color: #999;
+        /* Màu chữ khi placeholder xuất hiện */
       }
 
       // .selectTypeCar::-moz-placeholder {
@@ -398,7 +406,7 @@
     width: 80rem;
   }
 
-  .configuration-card-Kpy:hover{
+  .configuration-card-Kpy:hover {
     cursor: pointer;
     border: solid 0.1rem #fa8d1d;
 

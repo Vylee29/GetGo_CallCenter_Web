@@ -7,6 +7,8 @@ import withReactContent from "sweetalert2-react-content";
 import styles from "./login.module.scss";
 // import { useNavigate } from "react-router-dom";
 import AuthContext from "../../contexts/auth-context";
+import { ToastContainer, toast } from 'react-toastify';
+import 'react-toastify/dist/ReactToastify.css';
 const Login = () => {
   const authCtx = useContext(AuthContext)
 
@@ -27,24 +29,36 @@ const Login = () => {
       const res = await axios.post("http://localhost:3000/v1/users/login", {
         phone: phone.value,
         password: pass.value,
+        // phone: "+84666666666",
+        // password: "000000",
       });
       console.log(res);
-      await Swal.fire(
-        "Đăng nhập thành công",
-        "Nhấn nút để đến trang chủ",
-        "success"
-      );
+      // toast.success('Đăng nhập thành công!');
+      // await Swal.fire(
+      //   "Đăng nhập thành công",
+      //   "Nhấn nút để đến trang chủ",
+      //   "success"
+      // );
       console.log(res.data.user_info)
       authCtx.onLogin(res.data.user_info);
-      Nav('/')
+      toast.success('Đăng nhập thành công!');
+      if (res.data.user_info.type === "CallCenterS1")
+        Nav('/book/s1')
+      else if (res.data.user_info.type === "CallCenterS2")
+        Nav('/book/s2')
+      else
+        Nav('/book/s3')
+
       //Nav(res.data.link);
     } catch (err) {
       console.log(err)
-      await Swal.fire(
-        err.response.data.error,
-        "Nhấn nút để thực hiện lại việc đăng nhập",
-        "error"
-      );
+      toast.error(err.response.data.error);
+
+      // await Swal.fire(
+      //   err.response.data.error,
+      //   "Nhấn nút để thực hiện lại việc đăng nhập",
+      //   "error"
+      // );
     }
   };
   const handlePhoneNumber = (e) => {
@@ -88,6 +102,7 @@ const Login = () => {
   }, [pass.value]);
   return (
     <div className={styles.wrap}>
+      <ToastContainer />
       <div className={styles.introduction}>
         <div className={styles.infoWeb}>
           <img
@@ -125,6 +140,7 @@ const Login = () => {
                 name="phone"
                 type="text"
                 placeholder="Nhập số điện thoại"
+                // value='0666666666'
                 onChange={handlePhoneNumber}
               />
             </div>
@@ -142,6 +158,7 @@ const Login = () => {
                 name="password"
                 type="password"
                 placeholder="Nhập mật khẩu"
+                // value='000000'
                 onChange={(e) =>
                   setPass({ ...pass, value: e.target.value, isValid: true })
                 }

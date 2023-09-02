@@ -11,10 +11,7 @@ const AuthContext = React.createContext({
     handleTripInfor: (trip) => { },
     handleListTrip: (id) => { },
 })
-export const TripContext = React.createContext({
-    socket: null,
-    listTrip: []
-})
+
 export const AuthContextProvider = (props) => {
     const [socket, setSocket] = useState(null);
     const [listTrip, setListTrip] = useState([])
@@ -27,7 +24,7 @@ export const AuthContextProvider = (props) => {
     }, [])
     const [isLoggedIn, setIsLoggedIn] = useState(false)
 
-
+    console.log('heeeloo')
     useEffect(() => {
         if (isLoggedIn) {
             // Đăng nhập thành công, thiết lập kết nối socket
@@ -44,6 +41,7 @@ export const AuthContextProvider = (props) => {
                 newSocket.emit('callcenter-login');
                 const user = JSON.parse(localStorage.getItem('user')) || {}
                 console.log(user.type)
+                console.log('user.type')
                 if (user.type === "CallCenterS2") {
                     console.log('dddd');
                     newSocket.on('s2-trip', (data) => {
@@ -75,6 +73,7 @@ export const AuthContextProvider = (props) => {
                         console.log(data)
                     })
                 }
+                props.setRender(!props.render)
             });
 
             // Xử lý sự kiện khi bị ngắt kết nối
