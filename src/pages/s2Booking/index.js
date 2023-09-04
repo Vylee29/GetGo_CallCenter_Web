@@ -76,6 +76,7 @@ const S2Booking = () => {
             "lat": coords.lat,
             "lng": coords.lng
           }
+          
         })
         console.log(respond);
         if (respond.data.statusCode === 200) {

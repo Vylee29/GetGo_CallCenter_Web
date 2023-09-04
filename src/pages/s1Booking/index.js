@@ -2,11 +2,19 @@ import React, { useState } from "react";
 import "./s1Booking.scss";
 import axios from "axios";
 import Select from "react-select";
+import dayjs from 'dayjs';
 import { useEffect } from "react";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faCheckCircle } from "@fortawesome/free-regular-svg-icons";
 import { faCoffee } from "@fortawesome/free-solid-svg-icons";
-
+// import DateTimePicker from 'react-datetime-picker';
+import { DemoContainer } from '@mui/x-date-pickers/internals/demo';
+import { LocalizationProvider } from '@mui/x-date-pickers/LocalizationProvider';
+import { AdapterDayjs } from '@mui/x-date-pickers/AdapterDayjs';
+import { DateTimePicker } from '@mui/x-date-pickers/DateTimePicker';
+// import 'react-datetime-picker/dist/DateTimePicker.css';
+// import 'react-calendar/dist/Calendar.css';
+// import 'react-clock/dist/Clock.css';
 import { ToastContainer, toast } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
 const Notification = ({ message, onClose }) => {
@@ -22,6 +30,7 @@ const Notification = ({ message, onClose }) => {
 };
 
 function HistoryItem({ data, handleBookCar }) {
+
   let trip = JSON.parse(data.start);
   // console.log(data);
   return (
@@ -76,7 +85,11 @@ const S1Booking = () => {
     return { value: "", error: "", isValid: false };
   });
   const [history, setHistory] = useState([]);
+  // check user vip hay thường
+  const [vip, setVip] = useState(false)
 
+  // schedule
+  const [timeSchedule, setTimeSchedule] = useState(dayjs(new Date((new Date()).getTime() + 10 * 10 * 1000)));
   const [showNotification, setShowNotification] = useState(false);
   const [message, setMessage] = useState("");
   const handleNotificationClose = () => {
@@ -162,7 +175,19 @@ const S1Booking = () => {
         .catch(function (error) {
           console.log(error);
         });
+      axios.get("http://localhost:3000/v1/phone?phone=" + convertPhone).then(reponse => {
+        console.log(reponse.data.user_info.type)
+        if (reponse.data.user_info.type === "User_Vip") {
+          setVip(true)
+        };
+
+      }).catch(error => {
+        console.log(error)
+        setVip(false)
+
+      })
     } else {
+      setVip(false)
       setHistory([]);
     }
   };
@@ -184,10 +209,16 @@ const S1Booking = () => {
 
   const handleSubmit = () => {
     if (phone.isValid & address.isValid & type.isValid) {
+      const currentTime = new Date();
+      const oneHourLater = new Date(currentTime.getTime() + 60 * 60 * 1000);
+      const timeScheduleIsGreaterThanOneHourLater = timeSchedule > oneHourLater;
+      console.log(timeSchedule.toString());
       const data = {
         start: { place: address.value },
         phone: "+84" + phone.value.slice(1),
         carType: type.value,
+        is_scheduled: timeScheduleIsGreaterThanOneHourLater,
+        schedule_time: timeSchedule.toString(),
       };
       console.log(data);
       axios
@@ -202,6 +233,8 @@ const S1Booking = () => {
           setAddress({ value: "", error: "", isValid: false })
           setType({ value: "", error: "", isValid: false })
           setPhone({ value: "", error: "", isValid: false })
+          setHistory([])
+          setVip(false)
         })
         .catch(function (error) {
           console.log('mayf har')
@@ -215,12 +248,18 @@ const S1Booking = () => {
     }
   };
 
-  const handleBookCar = (trip) => {
+  const handleBookHistory = (trip) => {
     if (type.isValid) {
+      const currentTime = new Date();
+      const oneHourLater = new Date(currentTime.getTime() + 60 * 60 * 1000);
+      const timeScheduleIsGreaterThanOneHourLater = timeSchedule > oneHourLater;
+
       const data = {
         start: trip,
         phone: "+84" + phone.value.slice(1),
         carType: type.value,
+        is_scheduled: timeScheduleIsGreaterThanOneHourLater,
+        schedule_time: timeSchedule.toString(),
       };
       axios
         .post("http://localhost:3000/v1/booking/callcenters1", data, {
@@ -342,7 +381,7 @@ const S1Booking = () => {
                 value={type.value}
                 onChange={handleCarInput}
               >
-                <option value="">Chọn loại xe khách hàng mong muốn</option>
+                {/* <option value={listCar[0]}></option> */}
                 {listCar.map((item, index) => (
                   <option key={index} value={item.carType}>
                     {item.name}
@@ -352,6 +391,32 @@ const S1Booking = () => {
             </div>
           </div>
         </div>
+        {vip && <div className="d-flex flex-column">
+          {/* <p className="errorMsg errorMsgType">{type.error}</p> */}
+          <div
+            className="input-mUh1"
+
+          >
+            <LocalizationProvider dateAdapter={AdapterDayjs}>
+              <DemoContainer components={['DateTimePicker', 'DateTimePicker']}>
+
+                <DateTimePicker
+                  label="Controlled picker"
+                  value={timeSchedule}
+                  minDateTime={dayjs()}
+                  onChange={(newValue) => setTimeSchedule(newValue)}
+                />
+              </DemoContainer>
+            </LocalizationProvider>
+          </div>
+        </div>
+        }
+
+        {/* 
+        <DateTimePicker
+          label="Uncontrolled picker"
+          defaultValue={dayjs('2022-04-17T15:30')}
+        /> */}
 
         <div className="rectangle-1748-MbK"></div>
         <div className="general-section-header-gNh">
@@ -365,7 +430,7 @@ const S1Booking = () => {
             <HistoryItem
               key={index}
               data={item}
-              handleBookCar={handleBookCar}
+              handleBookCar={handleBookHistory}
             />
           ))}
 
