@@ -82,7 +82,7 @@ const S1Booking = () => {
     return { value: "", error: "", isValid: false };
   });
   const [type, setType] = useState(() => {
-    return { value: "", error: "", isValid: false };
+    return { value: { carType: 1, name: "4 chỗ" }, error: "", isValid: true };
   });
   const [history, setHistory] = useState([]);
   // check user vip hay thường
@@ -135,11 +135,8 @@ const S1Booking = () => {
   useEffect(() => {
     if (type.isValid === true) {
       const identifier = setTimeout(() => {
-        if (type.value.length === 0) {
-          setType({ ...type, error: "Thông tin bắt buộc", isValid: false });
-        } else {
-          setType({ ...type, error: "", isValid: true });
-        }
+
+        setType({ ...type, error: "", isValid: true });
       }, 500);
 
       return () => {
@@ -249,6 +246,8 @@ const S1Booking = () => {
   };
 
   const handleBookHistory = (trip) => {
+    console.log('ype.isValid')
+    console.log(type.isValid)
     if (type.isValid) {
       const currentTime = new Date();
       const oneHourLater = new Date(currentTime.getTime() + 60 * 60 * 1000);
